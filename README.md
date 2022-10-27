@@ -23,8 +23,15 @@
 * **Password:** postgres
 
 ## Access to PgAdmin: 
-* **URL:** `http://localhost:5050`
-* **Username:** admin@admin.com 
-* **Password:** admin (as a default)
+* Open `http://localhost:5050`
+* use `admin` when password will be required
+* In Servers, go to Register - Server
+* General - Name: localhost
+* Connection - Host name/address: db (Use the same name of service in docker-compose.yml to postgres)
+* Connection - Maintenance database: devices_api_dev
+* Connection - Username: postgres
+* Connection - Password: postgres
+* Save
+* Now you can access the database on node localhost in Servers
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
