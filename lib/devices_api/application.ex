@@ -12,8 +12,6 @@ defmodule DevicesAPI.Application do
       DevicesAPI.Repo,
       # Start the Telemetry supervisor
       DevicesAPIWeb.Telemetry,
-      # Start the PubSub system
-      {Phoenix.PubSub, name: DevicesAPI.PubSub},
       # Start the Endpoint (http/https)
       DevicesAPIWeb.Endpoint
       # Start a worker by calling: DevicesAPI.Worker.start_link(arg)
