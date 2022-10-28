@@ -8,7 +8,8 @@ config :devices_api, DevicesAPI.Repo,
   database: "devices_api_dev",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
-  pool_size: 10
+  pool_size: 10,
+  parameters: [application_name: "devices_api"]
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
