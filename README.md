@@ -4,8 +4,8 @@
   * run this command `asdf install` 
   * docker >= 20.10.12
   * docker-compose
-  * Elixir 1.13.3-otp-24
-  * Erlang 24.0.3
+  * Elixir 1.14.0-otp-24
+  * Erlang 24.3.4.5
   
 
 ## Quick Start
