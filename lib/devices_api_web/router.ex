@@ -5,11 +5,8 @@ defmodule DevicesAPIWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", DevicesAPIWeb do
-    pipe_through :api
-  end
-
   scope "/", DevicesApiWeb do
+    pipe_through :api
     post "/users/signup", UsersController, :create
   end
 
