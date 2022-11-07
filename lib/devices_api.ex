@@ -1,6 +1,6 @@
 defmodule DevicesAPI do
   @moduledoc """
-  Delegates functions to handle users and devices
+  Delegate functions to handle users and devices
   """
   alias DevicesApi.Users
 
