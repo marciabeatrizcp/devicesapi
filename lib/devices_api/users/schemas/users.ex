@@ -6,7 +6,7 @@ defmodule DevicesApi.Users.Schemas.Users do
   import Ecto.Changeset
 
   @primary_key {:id, :binary_id, autogenerate: true}
-  @required_fields [:name, :email, :password_hash]
+  @required_fields [:name, :email, :password]
 
   @email_regex ~r/^[A-Za-z0-9\._%+\-+']+@[A-Za-z0-9\.\-]+\.[A-Za-z]{2,4}$/
 
@@ -21,13 +21,21 @@ defmodule DevicesApi.Users.Schemas.Users do
     timestamps()
   end
 
-  @doc false
+  @doc "Prepare input to insert an user"
   def changeset(model \\ %__MODULE__{}, params) do
     model
     |> cast(params, @required_fields)
     |> validate_required(@required_fields)
     |> validate_length(:name, min: 3)
+    |> validate_length(:password, min: 6)
     |> validate_format(:email, @email_regex)
     |> unique_constraint(:email)
+    |> put_pass_hash()
   end
+
+  defp put_pass_hash(%Ecto.Changeset{valid?: true, changes: %{password: password}} = changeset) do
+    change(changeset, Argon2.add_hash(password))
+  end
+
+  defp put_pass_hash(changeset), do: changeset
 end

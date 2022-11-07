@@ -1,5 +1,8 @@
 defmodule DevicesAPI do
   @moduledoc """
-  DevicesAPI will provide endpoints to register users and devices.
+  Delegates functions to handle users and devices
   """
+  alias DevicesApi.Users
+
+  defdelegate create_user(params), to: Users.Create, as: :execute
 end
