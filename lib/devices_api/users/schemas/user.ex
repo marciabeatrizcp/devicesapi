@@ -1,4 +1,4 @@
-defmodule DevicesApi.Users.Schemas.Users do
+defmodule DevicesApi.Users.Schemas.User do
   @moduledoc """
   User table schema
   """
