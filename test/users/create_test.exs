@@ -79,7 +79,7 @@ defmodule Users.CreateTest do
       assert errors_on(response) == %{email: ["has already been taken"]}
     end
 
-    test "fails to create an user when password lenght is less than 6", params do
+    test "fails to create an user when password lenght is less than 6" do
       user_params = %{
         "name" => "Marcia Beatriz",
         "email" => "beatriz@mail.com",
