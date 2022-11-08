@@ -87,6 +87,8 @@ defmodule Users.CreateTest do
       }
 
       {:error, response} = DevicesAPI.create_user(user_params)
+      require IEx
+      IEx.pry()
 
       assert errors_on(response) == %{password: ["should be at least 6 character(s)"]}
     end
