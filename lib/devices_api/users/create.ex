@@ -16,17 +16,16 @@ defmodule DevicesApi.Users.Create do
 
   ## Examples
 
-  iex> alias DevicesApi.Users
-  ...> alias DevicesApi.Users.Schemas.User
-  ...> user_params = %{
-  ...>  name: "Beatriz",
-  ...>  passord: "95270000",
-  ...>  email: "beatriz@gmail.com"
-  ...> }
-  ...>
-  ...> {:ok, %User{}} = Users.Create.execute user_params
-  ...>
-  iex> {:error, %Ecto.Changeset{}} = Users.Create.execute %{}
+    iex> alias DevicesApi.Users
+
+    iex> alias DevicesApi.Users.Schemas.User
+
+    iex> user_params = %{name: "beatriz", password: "123457", email: "beatriz@teste.com.br"}
+
+    iex> {:ok, %User{}} = Users.Create.execute(user_params)
+
+    iex> {:error, %Ecto.Changeset{}} = Users.Create.execute(%{})
+
   """
   @spec execute(user_params()) :: {:error, Ecto.Changeset.t()} | {:ok, Ecto.Schema.t()}
   def execute(params) do
