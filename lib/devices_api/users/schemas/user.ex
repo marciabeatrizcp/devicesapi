@@ -21,7 +21,8 @@ defmodule DevicesApi.Users.Schemas.User do
     timestamps()
   end
 
-  @doc "Prepare input to insert an user"
+  @doc false
+  @spec changeset(params :: map()) :: Ecto.Changeset.t()
   def changeset(model \\ %__MODULE__{}, params) do
     model
     |> cast(params, @required_fields)

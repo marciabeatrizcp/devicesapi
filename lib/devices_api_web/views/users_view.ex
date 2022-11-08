@@ -2,7 +2,7 @@ defmodule DevicesApiWeb.UsersView do
   @moduledoc """
   Users views
   """
-
+  @doc "Renders an user"
   def render("create.json", %{user: user}) do
     %{
       id: user.id,
