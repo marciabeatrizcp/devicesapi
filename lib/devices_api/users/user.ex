@@ -28,7 +28,7 @@ defmodule DevicesApi.Users.User do
 
   """
   @spec create(user_params()) :: {:error, Ecto.Changeset.t()} | {:ok, Ecto.Schema.t()}
-  def create(params) do
+  def create(params) when is_map(params) do
     with %Ecto.Changeset{} = changeset <- User.changeset(params),
          {:ok, user} <- Repo.insert(changeset) do
       {:ok, user}
