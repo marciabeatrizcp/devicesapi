@@ -1,6 +1,8 @@
 defmodule DevicesApiWeb.FallbackControllerTest do
   use DevicesAPIWeb.ConnCase
 
+  alias DevicesApiWeb.FallbackControler
+
   test "renders error when password is invalid", %{conn: conn} do
     assigns =
       {:error,
@@ -14,7 +16,7 @@ defmodule DevicesApiWeb.FallbackControllerTest do
        }}
 
     conn = Map.put(conn, :params, %{"_format" => "json"})
-    conn = DevicesApiWeb.FallbackControler.call(conn, assigns)
+    conn = FallbackControler.call(conn, assigns)
 
     assert json_response(conn, 422) == %{
              "error" => [
@@ -30,7 +32,7 @@ defmodule DevicesApiWeb.FallbackControllerTest do
     assigns = {:error, :bad_request}
 
     conn = Map.put(conn, :params, %{"_format" => "json"})
-    conn = DevicesApiWeb.FallbackControler.call(conn, assigns)
+    conn = FallbackControler.call(conn, assigns)
 
     assert json_response(conn, 400) == %{"error" => "bad_request"}
   end
