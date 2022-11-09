@@ -5,10 +5,6 @@ defmodule DevicesApiWeb.FallbackControler do
     render_error(conn, :unprocessable_entity, errors, "field_errors.json")
   end
 
-  def call(conn, {:error, errors}) when is_list(errors) do
-    render_error(conn, :unprocessable_entity, errors, "field_errors.json")
-  end
-
   def call(conn, {:error, message}) do
     render_error(conn, :bad_request, message)
   end
