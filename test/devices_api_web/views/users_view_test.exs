@@ -15,7 +15,7 @@ defmodule DevicesApiWeb.UsersViewTest do
     }
 
     assert render(DevicesApiWeb.UsersView, "create.json", %{user: user}) == %{
-             email: "Beatriz",
+             email: "beatriz@gmail7.com.br",
              id: "b951aad2-8f6d-4d1e-867a-042fd1ff19cc",
              inserted_at: ~N[2022-11-09 14:50:10],
              name: "Beatriz",

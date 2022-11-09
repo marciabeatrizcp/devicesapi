@@ -10,7 +10,7 @@ defmodule DevicesApiWeb.UserControllerTest do
       }
 
       assert %{
-               "email" => "Beatriz Domingues",
+               "email" => "beatriz@gmail.com",
                "name" => "Beatriz Domingues"
              } =
                conn
