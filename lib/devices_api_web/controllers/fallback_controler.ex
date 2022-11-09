@@ -1,6 +1,10 @@
 defmodule DevicesApiWeb.FallbackControler do
   use DevicesAPIWeb, :controller
 
+  @moduledoc """
+  Fallback to handle errors
+  """
+
   def call(conn, {:error, %Ecto.Changeset{errors: errors}}) do
     render_error(conn, :unprocessable_entity, errors, "field_errors.json")
   end
