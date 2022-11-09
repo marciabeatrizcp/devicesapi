@@ -1,5 +1,5 @@
 defmodule DevicesApiWeb.FallbackControllerTest do
-  use DevicesAPIWeb.ConnCase
+  use DevicesAPIWeb.ConnCase, async: true
 
   alias DevicesApiWeb.FallbackControler
 
