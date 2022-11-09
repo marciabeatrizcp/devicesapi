@@ -1,4 +1,4 @@
-defmodule DevicesApi.Users.Create do
+defmodule DevicesApi.Users.User do
   @moduledoc """
   Domain functions for the User context
   """
@@ -27,8 +27,8 @@ defmodule DevicesApi.Users.Create do
     iex> {:error, %Ecto.Changeset{}} = Users.Create.execute(%{})
 
   """
-  @spec execute(user_params()) :: {:error, Ecto.Changeset.t()} | {:ok, Ecto.Schema.t()}
-  def execute(params) do
+  @spec create(user_params()) :: {:error, Ecto.Changeset.t()} | {:ok, Ecto.Schema.t()}
+  def create(params) do
     with %Ecto.Changeset{} = changeset <- User.changeset(params),
          {:ok, user} <- Repo.insert(changeset) do
       {:ok, user}

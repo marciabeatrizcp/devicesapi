@@ -1,10 +1,10 @@
-defmodule DevicesApi.Users.CreateTest do
+defmodule DevicesApi.Users.UserTest do
   use DevicesAPI.DataCase
 
   alias DevicesAPI.Repo
   alias DevicesApi.Users.Schemas.User
 
-  describe "execute/1" do
+  describe "create/1" do
     test "successfully creates an user when params are valid" do
       user_params = %{
         "name" => "Beatriz",

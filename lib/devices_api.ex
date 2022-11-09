@@ -2,7 +2,7 @@ defmodule DevicesAPI do
   @moduledoc """
   Delegate functions to handle users and devices
   """
-  alias DevicesApi.Users
+  alias DevicesApi.Users.User
 
-  defdelegate create_user(params), to: Users.Create, as: :execute
+  defdelegate create_user(params), to: User, as: :create
 end
