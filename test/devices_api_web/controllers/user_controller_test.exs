@@ -2,11 +2,7 @@ defmodule DevicesApiWeb.UserControllerTest do
   use DevicesAPIWeb.ConnCase
 
   describe "POST /users/signup" do
-    setup %{conn: conn} do
-      {:ok, conn: conn}
-    end
-
-    test "successfully create account when input is valid", setup do
+    test "successfully create account when input is valid", %{conn: conn} do
       user_params = %{
         name: "Beatriz Domingues",
         email: "beatriz@gmail.com",
@@ -17,12 +13,12 @@ defmodule DevicesApiWeb.UserControllerTest do
                "email" => "Beatriz Domingues",
                "name" => "Beatriz Domingues"
              } =
-               setup.conn
+               conn
                |> post("/users/signup", user_params)
                |> json_response(201)
     end
 
-    test "fails on creating user when name is invalid", setup do
+    test "fails on creating user when name is invalid", %{conn: conn} do
       user_params = %{
         name: "Be",
         email: "beatriz@gmail.com",
@@ -37,12 +33,12 @@ defmodule DevicesApiWeb.UserControllerTest do
                  }
                ]
              } =
-               setup.conn
+               conn
                |> post("/users/signup", user_params)
                |> json_response(422)
     end
 
-    test "fails on creating user when email is invalid", setup do
+    test "fails on creating user when email is invalid", %{conn: conn} do
       user_params = %{
         name: "Beatriz Domingues",
         email: "beatriz@gmail",
@@ -57,12 +53,12 @@ defmodule DevicesApiWeb.UserControllerTest do
                  }
                ]
              } =
-               setup.conn
+               conn
                |> post("/users/signup", user_params)
                |> json_response(422)
     end
 
-    test "fails on creating user when password lenght is less than six", setup do
+    test "fails on creating user when password lenght is less than six", %{conn: conn} do
       user_params = %{
         name: "Beatriz Domingues",
         email: "beatriz@gmail.com",
@@ -77,12 +73,12 @@ defmodule DevicesApiWeb.UserControllerTest do
                  }
                ]
              } =
-               setup.conn
+               conn
                |> post("/users/signup", user_params)
                |> json_response(422)
     end
 
-    test "fails on creating user when params are invalid", setup do
+    test "fails on creating user when params are invalid", %{conn: conn} do
       user_params = %{}
 
       assert %{
@@ -92,7 +88,7 @@ defmodule DevicesApiWeb.UserControllerTest do
                  %{"error_message" => "can't be blank", "field" => "password"}
                ]
              } =
-               setup.conn
+               conn
                |> post("/users/signup", user_params)
                |> json_response(422)
     end
