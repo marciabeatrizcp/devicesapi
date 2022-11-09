@@ -23,7 +23,7 @@ defmodule DevicesApi.Users.Schemas.User do
 
   @doc false
   @spec changeset(params :: map()) :: Ecto.Changeset.t()
-  def changeset(model \\ %__MODULE__{}, params) do
+  def changeset(model \\ %__MODULE__{}, params) when is_map(params) do
     model
     |> cast(params, @required_fields)
     |> validate_required(@required_fields)
