@@ -37,4 +37,7 @@
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 ## Running tests
-* mix test
+* MIX_ENV=test mix test
+
+## Show coverage
+* MIX_ENV=test mix coveralls
