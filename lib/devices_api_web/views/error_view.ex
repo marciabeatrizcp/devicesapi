@@ -1,4 +1,7 @@
 defmodule DevicesAPIWeb.ErrorView do
+  @moduledoc """
+  Errors views
+  """
   use DevicesAPIWeb, :view
 
   def render("default_error.json", %{message: message}) do
