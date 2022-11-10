@@ -16,7 +16,7 @@ defmodule DevicesApi.Users.Schemas.User do
     field :password_hash, :string
 
     # Virtuals
-    field :password, :string, virtual: true
+    field :password, :string, virtual: true, redact: true
 
     timestamps()
   end
