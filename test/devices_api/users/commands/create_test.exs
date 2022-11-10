@@ -1,10 +1,11 @@
-defmodule DevicesApi.Users.UserTest do
+defmodule DevicesApi.Users.Commands.CreateTest do
   use DevicesAPI.DataCase
 
   alias DevicesAPI.Repo
   alias DevicesApi.Users.Schemas.User
+  alias DevicesApi.Users.Commands.Create
 
-  describe "create/1" do
+  describe "execute/1" do
     test "successfully creates an user when params are valid" do
       user_params = %{
         "name" => "Beatriz",
@@ -14,7 +15,7 @@ defmodule DevicesApi.Users.UserTest do
 
       count_before = Repo.aggregate(User, :count)
 
-      {:ok, response} = DevicesAPI.create_user(user_params)
+      {:ok, response} = Create.execute(user_params)
 
       count_after = Repo.aggregate(User, :count)
 
@@ -30,7 +31,7 @@ defmodule DevicesApi.Users.UserTest do
         "password" => "123456"
       }
 
-      {:error, response} = DevicesAPI.create_user(user_params)
+      {:error, response} = Create.execute(user_params)
 
       assert errors_on(response) == %{name: ["should be at least 3 character(s)"]}
     end
@@ -42,7 +43,7 @@ defmodule DevicesApi.Users.UserTest do
         "password" => "123456"
       }
 
-      {:error, response} = DevicesAPI.create_user(user_params)
+      {:error, response} = Create.execute(user_params)
 
       assert errors_on(response) == %{email: ["has invalid format"]}
     end
@@ -50,7 +51,7 @@ defmodule DevicesApi.Users.UserTest do
     test "fails to create an user without required fields" do
       user_params = %{}
 
-      {:error, response} = DevicesAPI.create_user(user_params)
+      {:error, response} = Create.execute(user_params)
 
       assert errors_on(response) == %{
                email: ["can't be blank"],
@@ -66,7 +67,7 @@ defmodule DevicesApi.Users.UserTest do
         "password" => "123456"
       }
 
-      DevicesAPI.create_user(user_params)
+      Create.execute(user_params)
 
       user2_params = %{
         "name" => "Marcia Beatriz",
@@ -74,7 +75,7 @@ defmodule DevicesApi.Users.UserTest do
         "password" => "123456"
       }
 
-      {:error, response} = DevicesAPI.create_user(user2_params)
+      {:error, response} = Create.execute(user2_params)
 
       assert errors_on(response) == %{email: ["has already been taken"]}
     end
@@ -86,7 +87,7 @@ defmodule DevicesApi.Users.UserTest do
         "password" => "1234"
       }
 
-      {:error, response} = DevicesAPI.create_user(user_params)
+      {:error, response} = Create.execute(user_params)
 
       assert errors_on(response) == %{password: ["should be at least 6 character(s)"]}
     end
