@@ -1,6 +1,6 @@
 defmodule DevicesApi.Users.Commands.Create do
   @moduledoc """
-  Creates a new user
+  Creates an new user
   """
   alias DevicesApi.Users.Schemas.User
   alias DevicesAPI.Repo
@@ -12,7 +12,7 @@ defmodule DevicesApi.Users.Commands.Create do
         }
 
   @doc """
-  Inserts a user into the database.
+  Inserts an user into the database.
 
   ## Examples
 
