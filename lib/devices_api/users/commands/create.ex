@@ -1,6 +1,6 @@
 defmodule DevicesApi.Users.Commands.Create do
   @moduledoc """
-  Domain functions for the User context
+  Creates a new user
   """
   alias DevicesApi.Users.Schemas.User
   alias DevicesAPI.Repo
