@@ -1,6 +1,6 @@
 defmodule DevicesApi.Users.Commands.Create do
   @moduledoc """
-  Creates an new user
+  Creates a new user
   """
   alias DevicesApi.Users.Schemas.User
   alias DevicesAPI.Repo
