@@ -1,6 +1,6 @@
-defmodule DevicesApi.Users.User do
+defmodule DevicesApi.Users do
   @moduledoc """
-  Delegate functions to handle users
+  Delegate functions to handle users context
   """
   alias DevicesApi.Users.Commands.Create
 
