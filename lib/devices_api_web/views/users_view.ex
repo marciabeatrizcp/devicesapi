@@ -2,7 +2,9 @@ defmodule DevicesApiWeb.UsersView do
   @moduledoc """
   Users views
   """
+  alias Postgrex.Extensions.JSON
   @doc "Renders an user"
+  @spec render(String.t(), map()) :: JSON.t()
   def render("create.json", %{user: user}) do
     %{
       id: user.id,
