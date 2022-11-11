@@ -5,7 +5,7 @@ defmodule DevicesApiWeb.UsersController do
   alias DevicesApi.Users.User
   use DevicesAPIWeb, :controller
 
-  action_fallback(DevicesApiWeb.FallbackControler)
+  action_fallback DevicesApiWeb.FallbackControler
 
   @doc "Signs a user up with password"
   @spec create(Plug.Conn.t(), map) :: Plug.Conn.t()
