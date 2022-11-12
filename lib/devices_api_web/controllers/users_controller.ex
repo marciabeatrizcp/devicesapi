@@ -13,7 +13,17 @@ defmodule DevicesApiWeb.UsersController do
     with {:ok, user} <- Users.create_user(params) do
       conn
       |> put_status(:created)
-      |> render("create.json", user: user)
+      |> render("user.json", user: user)
+    end
+  end
+
+  @doc "get an user up with password"
+  @spec show(Plug.Conn.t(), map) :: Plug.Conn.t()
+  def show(conn, %{"id" => id}) do
+    with {:ok, user} <- Users.get_user(id) do
+      conn
+      |> put_status(:ok)
+      |> render("user.json", user: user)
     end
   end
 end

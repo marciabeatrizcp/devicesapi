@@ -8,6 +8,7 @@ defmodule DevicesAPIWeb.Router do
   scope "/", DevicesApiWeb do
     pipe_through :api
     post "/users/signup", UsersController, :create
+    get "/users/:id", UsersController, :show
   end
 
   if Mix.env() in [:dev, :test] do

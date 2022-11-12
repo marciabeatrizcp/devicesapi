@@ -1,6 +1,8 @@
 defmodule DevicesApiWeb.UserControllerTest do
   use DevicesAPIWeb.ConnCase
 
+  alias DevicesApi.Users
+
   describe "POST /users/signup" do
     test "successfully create account when input is valid", %{conn: conn} do
       user_params = %{
@@ -92,5 +94,49 @@ defmodule DevicesApiWeb.UserControllerTest do
                |> post("/users/signup", user_params)
                |> json_response(422)
     end
+  end
+
+  describe "GET /users/signup:id" do
+    test "successfully gets an user given a valid UUID", %{conn: conn} do
+      new_user = user_insert()
+
+      assert %{
+               "email" => "beatriz@gmail.com",
+               "name" => "Beatriz Domingues"
+             } =
+               conn
+               |> get("/users/#{new_user.id}")
+               |> json_response(200)
+    end
+
+    test "fails when given an invalid UUID", %{conn: conn} do
+      id = "1234"
+
+      assert %{"error" => "Invalid ID format!"} =
+               conn
+               |> get("/users/#{id}")
+               |> json_response(400)
+    end
+
+    test "returns not found when user doesn't exist ", %{conn: conn} do
+      id = "45dc768d-9e35-4d06-a7c0-64377cf71906"
+
+      assert %{"error" => "User not found!"} =
+               conn
+               |> get("/users/#{id}")
+               |> json_response(400)
+    end
+  end
+
+  defp user_insert do
+    user_params = %{
+      name: "Beatriz Domingues",
+      email: "beatriz@gmail.com",
+      password: "123456"
+    }
+
+    {:ok, user} = Users.create_user(user_params)
+
+    user
   end
 end
