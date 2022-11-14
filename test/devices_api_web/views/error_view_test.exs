@@ -1,15 +1,44 @@
 defmodule DevicesAPIWeb.ErrorViewTest do
   use DevicesAPIWeb.ConnCase, async: true
 
-  # Bring render/3 and render_to_string/3 for testing custom views
   import Phoenix.View
 
-  test "renders 404.json" do
-    assert render(DevicesAPIWeb.ErrorView, "404.json", []) == %{errors: %{detail: "Not Found"}}
+  test "renders default_error.json" do
+    assert render(DevicesAPIWeb.ErrorView, "default_error.json", %{message: "reason"}) == %{
+             error: "reason"
+           }
   end
 
-  test "renders 500.json" do
-    assert render(DevicesAPIWeb.ErrorView, "500.json", []) ==
-             %{errors: %{detail: "Internal Server Error"}}
+  test "renders field_errors.json" do
+    messages = [
+      {
+        :password,
+        {"should be at least %{count} character(s)", "teste"}
+      },
+      {
+        :email,
+        {"has invalid format", "teste"}
+      }
+    ]
+
+    assert render(DevicesAPIWeb.ErrorView, "field_errors.json", %{message: messages}) ==
+             %{
+               error: [
+                 %{error_message: "should be at least %{count} character(s)", field: :password},
+                 %{error_message: "has invalid format", field: :email}
+               ]
+             }
+  end
+
+  test "renders field_error.json" do
+    assigns = %{
+      error: {
+        :password,
+        {"should be at least %{count} character(s)", "teste"}
+      }
+    }
+
+    assert render(DevicesAPIWeb.ErrorView, "field_error.json", assigns) ==
+             %{error_message: "should be at least %{count} character(s)", field: :password}
   end
 end

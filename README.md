@@ -35,3 +35,9 @@
 * Now you can access the database on node localhost in Servers
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+
+## Running tests
+* mix test
+
+## Show coverage
+* mix coveralls
