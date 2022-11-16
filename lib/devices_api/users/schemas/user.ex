@@ -2,10 +2,9 @@ defmodule DevicesApi.Users.Schemas.User do
   @moduledoc """
   User table schema
   """
-  use Ecto.Schema
+  use DevicesApi.Schema
   import Ecto.Changeset
 
-  @primary_key {:id, :binary_id, autogenerate: true}
   @required_fields [:name, :email, :password]
 
   @email_regex ~r/^[A-Za-z0-9\._%+\-+']+@[A-Za-z0-9\.\-]+\.[A-Za-z]{2,4}$/
