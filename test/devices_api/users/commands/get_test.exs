@@ -1,7 +1,6 @@
 defmodule DevicesApi.Users.Commands.GetTest do
   use DevicesAPI.DataCase
 
-  alias DevicesAPI.Repo
   alias DevicesApi.Users.Schemas.User
   alias DevicesApi.Users
   alias DevicesApi.Users.Commands.Get
