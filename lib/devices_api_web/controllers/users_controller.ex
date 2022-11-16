@@ -17,7 +17,7 @@ defmodule DevicesApiWeb.UsersController do
     end
   end
 
-  @doc "get an user up with password"
+  @doc "get an user by id"
   @spec show(Plug.Conn.t(), map) :: Plug.Conn.t()
   def show(conn, %{"id" => id}) do
     with {:ok, user} <- Users.get_user(id) do

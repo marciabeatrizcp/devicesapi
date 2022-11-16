@@ -124,7 +124,7 @@ defmodule DevicesApiWeb.UserControllerTest do
       assert %{"error" => "User not found!"} =
                conn
                |> get("/users/#{id}")
-               |> json_response(400)
+               |> json_response(404)
     end
   end
 

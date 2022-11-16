@@ -26,7 +26,7 @@ defmodule DevicesApi.Users.Commands.GetTest do
     test "returns not found when user doesn't exist" do
       id = "45dc768d-9e35-4d06-a7c0-64377cf71906"
 
-      {:error, response} = Get.execute(id)
+      {:error, :not_found, response} = Get.execute(id)
 
       assert "User not found!" = response
     end

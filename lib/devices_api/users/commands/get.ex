@@ -1,6 +1,6 @@
 defmodule DevicesApi.Users.Commands.Get do
   @moduledoc """
-  Gets a user for a given id
+  Gets an user by id
   """
   alias Ecto.UUID
   alias DevicesApi.Users.Schemas.User
@@ -16,7 +16,7 @@ defmodule DevicesApi.Users.Commands.Get do
 
   defp get(uuid) do
     case Repo.get(User, uuid) do
-      nil -> {:error, "User not found!"}
+      nil -> {:error, :not_found, "User not found!"}
       user -> {:ok, user}
     end
   end
