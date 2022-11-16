@@ -51,7 +51,8 @@ defmodule DevicesAPI.MixProject do
       {:plug_cowboy, "~> 2.6"},
       {:argon2_elixir, "~> 2.0"},
       {:ex_doc, "~> 0.21", only: :dev, runtime: false},
-      {:excoveralls, "~> 0.10", only: :test}
+      {:excoveralls, "~> 0.10", only: :test},
+      {:credo, "~> 1.6.2", only: [:dev, :test], runtime: false},
     ]
   end
 
