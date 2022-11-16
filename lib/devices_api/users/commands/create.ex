@@ -21,16 +21,16 @@ defmodule DevicesApi.Users.Commands.Create do
 
     iex> {:ok, %User{}} = execute(user_params)
 
-    iex> {:error, %Ecto.Changeset{}} = Users.Create.execute(%{})
+    iex> {:error, %Ecto.Changeset{}} = execute(%{})
 
   """
   @spec execute(user_params()) :: {:error, Ecto.Changeset.t()} | {:ok, Ecto.Schema.t()}
   def execute(params) when is_map(params) do
-    with %Ecto.Changeset{valid?:  true} = changeset <- User.changeset(params),
+    with %Ecto.Changeset{valid?: true} = changeset <- User.changeset(params),
          {:ok, user} <- Repo.insert(changeset) do
       {:ok, user}
     else
-      %Ecto.Changeset{valid?:  false} = changeset -> {:error, changeset}
+      %Ecto.Changeset{valid?: false} = changeset -> {:error, changeset}
       {:error, _} = err -> err
     end
   end
