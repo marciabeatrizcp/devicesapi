@@ -17,7 +17,7 @@ defmodule DevicesApiWeb.UserControllerTest do
              } =
                conn
                |> post("/users/signup", user_params)
-               |> json_response(201)
+               |> json_response(:created)
     end
 
     test "fails on creating user when name is invalid", %{conn: conn} do
@@ -37,7 +37,7 @@ defmodule DevicesApiWeb.UserControllerTest do
              } =
                conn
                |> post("/users/signup", user_params)
-               |> json_response(422)
+               |> json_response(:unprocessable_entity)
     end
 
     test "fails on creating user when email is invalid", %{conn: conn} do
@@ -57,7 +57,7 @@ defmodule DevicesApiWeb.UserControllerTest do
              } =
                conn
                |> post("/users/signup", user_params)
-               |> json_response(422)
+               |> json_response(:unprocessable_entity)
     end
 
     test "fails on creating user when password lenght is less than six", %{conn: conn} do
@@ -77,7 +77,7 @@ defmodule DevicesApiWeb.UserControllerTest do
              } =
                conn
                |> post("/users/signup", user_params)
-               |> json_response(422)
+               |> json_response(:unprocessable_entity)
     end
 
     test "fails on creating user when params are invalid", %{conn: conn} do
@@ -92,7 +92,7 @@ defmodule DevicesApiWeb.UserControllerTest do
              } =
                conn
                |> post("/users/signup", user_params)
-               |> json_response(422)
+               |> json_response(:unprocessable_entity)
     end
   end
 
@@ -106,7 +106,7 @@ defmodule DevicesApiWeb.UserControllerTest do
              } =
                conn
                |> get("/users/#{new_user.id}")
-               |> json_response(200)
+               |> json_response(:ok)
     end
 
     test "fails when given an invalid UUID", %{conn: conn} do
@@ -115,7 +115,7 @@ defmodule DevicesApiWeb.UserControllerTest do
       assert %{"error" => "Invalid ID format!"} =
                conn
                |> get("/users/#{id}")
-               |> json_response(400)
+               |> json_response(:bad_request)
     end
 
     test "returns not found when user doesn't exist ", %{conn: conn} do
@@ -124,7 +124,7 @@ defmodule DevicesApiWeb.UserControllerTest do
       assert %{"error" => "User not found!"} =
                conn
                |> get("/users/#{id}")
-               |> json_response(404)
+               |> json_response(:not_found)
     end
   end
 

@@ -18,7 +18,7 @@ defmodule DevicesApiWeb.FallbackControllerTest do
     conn = Map.put(conn, :params, %{"_format" => "json"})
     conn = FallbackControler.call(conn, assigns)
 
-    assert json_response(conn, 422) == %{
+    assert json_response(conn, :unprocessable_entity) == %{
              "error" => [
                %{
                  "error_message" => "should be at least %{count} character(s)",
@@ -34,6 +34,15 @@ defmodule DevicesApiWeb.FallbackControllerTest do
     conn = Map.put(conn, :params, %{"_format" => "json"})
     conn = FallbackControler.call(conn, assigns)
 
-    assert json_response(conn, 400) == %{"error" => "bad_request"}
+    assert json_response(conn, :bad_request) == %{"error" => "bad_request"}
+  end
+
+  test "renders a not found error", %{conn: conn} do
+    assigns = {:error, :not_found, "not_found"}
+
+    conn = Map.put(conn, :params, %{"_format" => "json"})
+    conn = FallbackControler.call(conn, assigns)
+
+    assert json_response(conn, :not_found) == %{"error" => "not_found"}
   end
 end
