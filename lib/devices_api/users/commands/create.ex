@@ -2,8 +2,8 @@ defmodule DevicesApi.Users.Commands.Create do
   @moduledoc """
   Creates a new user
   """
-  alias DevicesApi.Users.Schemas.User
   alias DevicesAPI.Repo
+  alias DevicesApi.Users.Schemas.User
 
   @type user_params :: %{
           name: String.t(),

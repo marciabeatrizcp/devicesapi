@@ -1,9 +1,9 @@
 defmodule DevicesApi.Users.Commands.GetTest do
   use DevicesAPI.DataCase
 
-  alias DevicesApi.Users.Schemas.User
   alias DevicesApi.Users
   alias DevicesApi.Users.Commands.Get
+  alias DevicesApi.Users.Schemas.User
 
   describe "execute/1" do
     test "successfully gets an user given a valid UUID" do

@@ -1,10 +1,10 @@
 defmodule DevicesApi.Users.Commands.Get do
   @moduledoc """
-  Gets an user by id
+  Gets a user by id
   """
-  alias Ecto.UUID
-  alias DevicesApi.Users.Schemas.User
   alias DevicesAPI.Repo
+  alias DevicesApi.Users.Schemas.User
+  alias Ecto.UUID
 
   @doc """
   Retrieves an user from database.

@@ -1,4 +1,7 @@
 defmodule DevicesAPIWeb.Telemetry do
+  @moduledoc """
+  Creates a Telemetry supervisor
+  """
   use Supervisor
   import Telemetry.Metrics
 

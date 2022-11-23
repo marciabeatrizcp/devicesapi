@@ -2,8 +2,8 @@ defmodule DevicesApi.Users.Commands.CreateTest do
   use DevicesAPI.DataCase
 
   alias DevicesAPI.Repo
-  alias DevicesApi.Users.Schemas.User
   alias DevicesApi.Users.Commands.Create
+  alias DevicesApi.Users.Schemas.User
 
   describe "execute/1" do
     test "successfully creates an user when params are valid" do
