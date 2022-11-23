@@ -97,7 +97,7 @@ defmodule DevicesApiWeb.UserControllerTest do
   end
 
   describe "GET /users/signup:id" do
-    test "successfully gets an user given a valid UUID", %{conn: conn} do
+    test "successfully gets a user given a valid UUID", %{conn: conn} do
       new_user = user_insert()
 
       assert %{

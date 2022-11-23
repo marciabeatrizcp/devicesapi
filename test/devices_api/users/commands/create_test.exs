@@ -6,7 +6,7 @@ defmodule DevicesApi.Users.Commands.CreateTest do
   alias DevicesApi.Users.Schemas.User
 
   describe "execute/1" do
-    test "successfully creates an user when params are valid" do
+    test "successfully creates a user when params are valid" do
       user_params = %{
         "name" => "Beatriz",
         "email" => "beatriz@mail.com",
@@ -24,7 +24,7 @@ defmodule DevicesApi.Users.Commands.CreateTest do
       assert count_after > count_before
     end
 
-    test "fails to create an user when name is invalid" do
+    test "fails to create a user when name is invalid" do
       user_params = %{
         "name" => "bi",
         "email" => "beatriz@mail.com",
@@ -36,7 +36,7 @@ defmodule DevicesApi.Users.Commands.CreateTest do
       assert errors_on(response) == %{name: ["should be at least 3 character(s)"]}
     end
 
-    test "fails to create an user when email is invalid" do
+    test "fails to create a user when email is invalid" do
       user_params = %{
         "name" => "Marcia Beatriz",
         "email" => "beatriz@mail",
@@ -48,7 +48,7 @@ defmodule DevicesApi.Users.Commands.CreateTest do
       assert errors_on(response) == %{email: ["has invalid format"]}
     end
 
-    test "fails to create an user without required fields" do
+    test "fails to create a user without required fields" do
       user_params = %{}
 
       {:error, response} = Create.execute(user_params)
@@ -60,7 +60,7 @@ defmodule DevicesApi.Users.Commands.CreateTest do
              }
     end
 
-    test "fails to create an user when email has already been taken" do
+    test "fails to create a user when email has already been taken" do
       user_params = %{
         "name" => "Marcia Beatriz",
         "email" => "beatriz@mail.com",
@@ -80,7 +80,7 @@ defmodule DevicesApi.Users.Commands.CreateTest do
       assert errors_on(response) == %{email: ["has already been taken"]}
     end
 
-    test "fails to create an user when password lenght is less than 6" do
+    test "fails to create a user when password lenght is less than 6" do
       user_params = %{
         "name" => "Marcia Beatriz",
         "email" => "beatriz@mail.com",

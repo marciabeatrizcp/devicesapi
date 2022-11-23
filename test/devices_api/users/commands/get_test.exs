@@ -6,7 +6,7 @@ defmodule DevicesApi.Users.Commands.GetTest do
   alias DevicesApi.Users.Schemas.User
 
   describe "execute/1" do
-    test "successfully gets an user given a valid UUID" do
+    test "successfully gets a user given a valid UUID" do
       new_user = user_insert()
 
       {:ok, response} = Get.execute(new_user.id)

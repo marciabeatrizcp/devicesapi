@@ -12,7 +12,7 @@ defmodule DevicesApi.Users.Commands.Create do
         }
 
   @doc """
-  Inserts an user into the database.
+  Inserts a user into the database.
 
   ## Examples
 

@@ -7,7 +7,7 @@ defmodule DevicesApi.Users.Commands.Get do
   alias Ecto.UUID
 
   @doc """
-  Retrieves an user from database.
+  Retrieves a user from database.
 
   ## Examples
 

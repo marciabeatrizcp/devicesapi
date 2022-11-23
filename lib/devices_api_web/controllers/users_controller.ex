@@ -17,7 +17,7 @@ defmodule DevicesApiWeb.UsersController do
     end
   end
 
-  @doc "Gets an user by id"
+  @doc "Gets a user by id"
   @spec show(conn :: Plug.Conn.t(), map) ::
           {:error, :not_found, String.t()} | {:error, :bad_request, String.t()} | Plug.Conn.t()
   def show(conn, %{"id" => id}) do
