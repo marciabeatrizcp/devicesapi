@@ -11,19 +11,6 @@ defmodule DevicesApi.Users.Commands.Create do
           email: String.t()
         }
 
-  @doc """
-  Inserts a user into the database.
-
-  ## Examples
-
-
-    iex> user_params = %{name: "beatriz", password: "123457", email: "beatriz@teste.com.br"}
-
-    iex> {:ok, %User{}} = execute(user_params)
-
-    iex> {:error, %Ecto.Changeset{}} = execute(%{})
-
-  """
   @spec execute(user_params()) :: {:error, Ecto.Changeset.t()} | {:ok, Ecto.Schema.t()}
   def execute(params) when is_map(params) do
     with %Ecto.Changeset{valid?: true} = changeset <- User.changeset(params),

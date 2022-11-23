@@ -38,7 +38,7 @@ defmodule DevicesApi.Users.Commands.GetTest do
       password: "123456"
     }
 
-    {:ok, user} = Users.create_user(user_params)
+    {:ok, user} = Users.create(user_params)
 
     user
   end

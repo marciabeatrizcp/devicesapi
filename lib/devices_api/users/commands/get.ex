@@ -6,19 +6,6 @@ defmodule DevicesApi.Users.Commands.Get do
   alias DevicesApi.Users.Schemas.User
   alias Ecto.UUID
 
-  @doc """
-  Retrieves a user from database.
-
-  ## Examples
-
-    iex> {:ok, %User{}} = execute(uuid)
-
-    iex> {:error, :not_found, "User not found!"} = Users.Get.execute(not_found_user_id)
-
-    iex> {:error, "Invalid ID format!"} = execute(invalid_user_id)
-
-  """
-
   @spec execute(id :: String.t()) :: {:ok, Ecto.UUID.t()} | {:error, String.t()}
   def execute(id) do
     case UUID.cast(id) do
