@@ -7,7 +7,7 @@ defmodule DevicesApi.Users.Commands.Create do
 
   @type user_params :: %{
           name: String.t(),
-          passord: String.t(),
+          password: String.t(),
           email: String.t()
         }
 
