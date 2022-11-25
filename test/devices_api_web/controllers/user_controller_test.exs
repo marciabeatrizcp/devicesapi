@@ -2,6 +2,7 @@ defmodule DevicesApiWeb.UserControllerTest do
   use DevicesAPIWeb.ConnCase
 
   alias DevicesApi.Users
+  alias DevicesApi.Users.Inputs.SignupRequestInput
 
   describe "POST /users/signup" do
     test "successfully create account when input is valid", %{conn: conn} do
@@ -37,13 +38,13 @@ defmodule DevicesApiWeb.UserControllerTest do
              } =
                conn
                |> post("/users/signup", user_params)
-               |> json_response(:unprocessable_entity)
+               |> json_response(:bad_request)
     end
 
     test "fails on creating user when email is invalid", %{conn: conn} do
       user_params = %{
         name: "Beatriz Domingues",
-        email: "beatriz@gmail",
+        email: "beatrizgmail",
         password: "123456"
       }
 
@@ -57,7 +58,7 @@ defmodule DevicesApiWeb.UserControllerTest do
              } =
                conn
                |> post("/users/signup", user_params)
-               |> json_response(:unprocessable_entity)
+               |> json_response(:bad_request)
     end
 
     test "fails on creating user when password lenght is less than six", %{conn: conn} do
@@ -77,7 +78,7 @@ defmodule DevicesApiWeb.UserControllerTest do
              } =
                conn
                |> post("/users/signup", user_params)
-               |> json_response(:unprocessable_entity)
+               |> json_response(:bad_request)
     end
 
     test "fails on creating user when params are invalid", %{conn: conn} do
@@ -92,7 +93,7 @@ defmodule DevicesApiWeb.UserControllerTest do
              } =
                conn
                |> post("/users/signup", user_params)
-               |> json_response(:unprocessable_entity)
+               |> json_response(:bad_request)
     end
   end
 
@@ -129,7 +130,7 @@ defmodule DevicesApiWeb.UserControllerTest do
   end
 
   defp user_insert do
-    user_params = %{
+    user_params = %SignupRequestInput{
       name: "Beatriz Domingues",
       email: "beatriz@gmail.com",
       password: "123456"

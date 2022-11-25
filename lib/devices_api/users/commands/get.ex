@@ -4,20 +4,17 @@ defmodule DevicesApi.Users.Commands.Get do
   """
   alias DevicesAPI.Repo
   alias DevicesApi.Users.Schemas.User
-  alias Ecto.UUID
 
   @spec execute(id :: String.t()) :: {:ok, Ecto.UUID.t()} | {:error, String.t()}
-  def execute(id) do
-    case UUID.cast(id) do
-      :error -> {:error, "Invalid ID format!"}
-      {:ok, uuid} -> get(uuid)
-    end
-  end
 
-  defp get(uuid) do
-    case Repo.get(User, uuid) do
-      nil -> {:error, :not_found, "User not found!"}
-      user -> {:ok, user}
+  def execute(id) do
+    with {:id, {:ok, _}} <- {:id, Ecto.UUID.cast(id)},
+         {:ok, %User{} = user} <-
+           {:ok, Repo.get(User, id)} do
+      {:ok, user}
+    else
+      {:id, :error} -> {:error, :invalid_params, "Invalid ID format!"}
+      {:ok, nil} -> {:error, :not_found, "User not found!"}
     end
   end
 end

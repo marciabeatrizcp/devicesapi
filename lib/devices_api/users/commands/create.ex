@@ -3,6 +3,7 @@ defmodule DevicesApi.Users.Commands.Create do
   Creates a new user
   """
   alias DevicesAPI.Repo
+  alias DevicesApi.Users.Inputs.SignupRequestInput
   alias DevicesApi.Users.Schemas.User
 
   @type user_params :: %{
@@ -11,14 +12,19 @@ defmodule DevicesApi.Users.Commands.Create do
           email: String.t()
         }
 
-  @spec execute(user_params()) :: {:error, Ecto.Changeset.t()} | {:ok, Ecto.Schema.t()}
-  def execute(params) when is_map(params) do
-    with %Ecto.Changeset{valid?: true} = changeset <- User.changeset(params),
+  @spec execute(input :: SignupRequestInput.t()) ::
+          {:error, Ecto.Changeset.t()} | {:ok, Ecto.Schema.t()}
+  def execute(%SignupRequestInput{} = input) do
+    with %Ecto.Changeset{valid?: true} = changeset <- do_changeset(input),
          {:ok, user} <- Repo.insert(changeset) do
       {:ok, user}
     else
       %Ecto.Changeset{valid?: false} = changeset -> {:error, changeset}
-      {:error, _} = err -> err
+      {:error, _} = err -> err |> IO.inspect()
     end
+  end
+
+  defp do_changeset(%{name: name, email: email, password: password}) do
+    User.changeset(%{name: name, email: email, password: password})
   end
 end

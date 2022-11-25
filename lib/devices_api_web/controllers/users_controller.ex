@@ -2,7 +2,10 @@ defmodule DevicesApiWeb.UsersController do
   @moduledoc """
   Endpoints to handle Users
   """
+
   alias DevicesApi.Users
+  alias DevicesApi.Users.Inputs.SignupRequestInput
+  alias DevicesApi.ChangesetValidation
   use DevicesAPIWeb, :controller
 
   action_fallback DevicesApiWeb.FallbackControler
@@ -10,7 +13,8 @@ defmodule DevicesApiWeb.UsersController do
   @doc "Signs a user up with password"
   @spec create(conn :: Plug.Conn.t(), map) :: Plug.Conn.t()
   def create(conn, params) do
-    with {:ok, user} <- Users.create(params) do
+    with {:ok, data} <- ChangesetValidation.cast_and_aply_changes(SignupRequestInput, params),
+         {:ok, user} <- Users.create(data) do
       conn
       |> put_status(:created)
       |> render("user.json", user: user)

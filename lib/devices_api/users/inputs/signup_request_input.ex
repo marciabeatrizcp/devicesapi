@@ -1,9 +1,10 @@
-defmodule DevicesApi.Users.Inputs.Create do
+defmodule DevicesApi.Users.Inputs.SignupRequestInput do
   @moduledoc """
   Create input type.
   """
-
   use DevicesApi.ValueObjectSchema
+
+  import DevicesApi.ChangesetValidation, only: [validate_email: 2]
 
   @required [:name, :email, :password]
 
@@ -17,9 +18,12 @@ defmodule DevicesApi.Users.Inputs.Create do
 
   @doc false
   @spec changeset(params :: map()) :: Ecto.Changeset.t()
-  def changeset(params) do
-    %__MODULE__{}
+  def changeset(model \\ %__MODULE__{}, params) do
+    model
     |> cast(params, @required)
     |> validate_required(@required)
+    |> validate_length(:name, min: 3)
+    |> validate_length(:password, min: 6)
+    |> validate_email(:email)
   end
 end
