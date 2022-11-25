@@ -2,10 +2,10 @@ defmodule DevicesApiWeb.UsersController do
   @moduledoc """
   Endpoints to handle Users
   """
-
+  alias DevicesApi.ChangesetValidation
   alias DevicesApi.Users
   alias DevicesApi.Users.Inputs.SignupRequestInput
-  alias DevicesApi.ChangesetValidation
+
   use DevicesAPIWeb, :controller
 
   action_fallback DevicesApiWeb.FallbackControler

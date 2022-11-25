@@ -20,7 +20,7 @@ defmodule DevicesApi.Users.Commands.Create do
       {:ok, user}
     else
       %Ecto.Changeset{valid?: false} = changeset -> {:error, changeset}
-      {:error, _} = err -> err |> IO.inspect()
+      {:error, _} = err -> err
     end
   end
 

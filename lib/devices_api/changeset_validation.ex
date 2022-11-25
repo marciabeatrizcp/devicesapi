@@ -4,9 +4,6 @@ defmodule DevicesApi.ChangesetValidation do
   """
   alias Ecto.Changeset
 
-  @typedoc "All possible changeset responses"
-  @type changeset_response :: {:ok, Ecto.Schema.t()} | {:error, Changeset.t()}
-
   # Validation email regex
   @email_regex ~r<\A[a-zA-Z0-9!#$%&'*+/=?^_`{|}~.-]+[^\.]@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\z>
 
@@ -14,9 +11,8 @@ defmodule DevicesApi.ChangesetValidation do
   @spec validate_email(changeset :: Changeset.t(), field :: atom()) :: Changeset.t()
   def validate_email(%Changeset{} = changeset, field) when is_atom(field) do
     Changeset.validate_change(changeset, field, fn ^field, value ->
-      with {:proper, true} <- {:proper, String.match?(value, @email_regex)} do
-        []
-      else
+      case {:proper, String.match?(value, @email_regex)} do
+        {:proper, true} -> []
         {:proper, false} -> [{field, {"has invalid format", exchema_error: :invalid_email}}]
       end
     end)
