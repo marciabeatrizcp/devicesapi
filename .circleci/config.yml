@@ -23,6 +23,14 @@ jobs:
       - run: mix do deps.get
       - run: mix format --check-formatted
       - run: mix credo --strict
+    credo_check:
+      executor: minimal-elixir
+      steps:
+      - checkout
+      - run: mix local.hex --force
+      - run: mix local.rebar --force
+      - run: mix do deps.get
+      - run: mix credo --strict
 
 workflows:
   version: 2.
@@ -30,5 +38,8 @@ workflows:
     jobs:
     - build
     - format_check:
+        requires:
+            - build
+    - credo_check:
         requires:
             - build
