@@ -14,7 +14,6 @@ jobs:
       - run: mix local.hex --force
       - run: mix local.rebar --force
       - run: mix do deps.get
-      - run: mix deps.compile argon2_elixir
       - run: mix deps.compile
     format_credo_check:
       executor: minimal-elixir
@@ -23,7 +22,6 @@ jobs:
       - run: mix local.hex --force
       - run: mix local.rebar --force
       - run: mix do deps.get
-      - run: mix deps.compile argon2_elixir
       - run: mix deps.compile
       - run: mix format --check-formatted
       - run: mix credo --strict
