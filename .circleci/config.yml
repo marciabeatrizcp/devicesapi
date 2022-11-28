@@ -14,7 +14,6 @@ jobs:
       - run: mix local.hex --force
       - run: mix local.rebar --force
       - run: mix do deps.get
-      - run: mix compile --warnings-as-errors
     format_check:
       executor: minimal-elixir
       steps:
