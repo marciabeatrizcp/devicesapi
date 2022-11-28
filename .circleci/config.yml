@@ -18,6 +18,8 @@ jobs:
       executor: minimal-elixir
       steps:
       - checkout
+      - run: mix local.hex --force
+      - run: mix local.rebar --force
       - run: mix format --check-formatted
       - run: mix credo --strict
 
