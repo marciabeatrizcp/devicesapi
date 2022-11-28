@@ -20,6 +20,7 @@ jobs:
       - checkout
       - run: mix local.hex --force
       - run: mix local.rebar --force
+      - run: mix do deps.get
       - run: mix format --check-formatted
       - run: mix credo --strict
 
