@@ -15,7 +15,7 @@ defmodule DevicesApi.Users.Schemas.UserTest do
 
       assert %Ecto.Changeset{
                changes: %{
-                 name: "Beatrizg",
+                 name: "Beatriz",
                  email: "beatriz@mail.com",
                  password: "123456"
                },
