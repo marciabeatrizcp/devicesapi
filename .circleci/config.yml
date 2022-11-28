@@ -2,14 +2,14 @@ version: 2.1
 jobs:
     build:
       docker:
-      - image: circleci/elixir:1.8.2
+      - image: elixir:1.14.1-erlang-25.0.4-node
       steps:
       - checkout
       - run: mix do deps.get, deps.compile
       - run: mix compile --warnings-as-errors
     format_check:
       docker:
-      - image: circleci/elixir:1.8.2
+      - image: elixir:1.14.1-erlang-25.0.4-node
       steps:
       - checkout
       - run: mix format --check-formatted
