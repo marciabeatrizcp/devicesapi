@@ -15,16 +15,16 @@ jobs:
       - run: mix local.hex --force
       - run: mix local.rebar --force
       - run: mix do deps.get, deps.compile
-    format_credo_check:
-      executor: minimal-elixir
-      steps:
-      - run: apk add --update -qq alpine-sdk
-      - checkout
-      - run: mix local.hex --force
-      - run: mix local.rebar --force
-      - run: mix do deps.get, deps.compile
       - run: mix format --check-formatted
       - run: mix credo --strict
+    test:
+      executor: minimal-elixir      
+      steps:
+      - run: apk add --update -qq alpine-sdk
+      - run: mix local.hex --force
+      - run: mix local.rebar --force
+      - run: mix test
+
 workflows:
   version: 2.
   build_and_test:
