@@ -30,6 +30,6 @@ workflows:
   build_and_test:
     jobs:
     - build
-    - format_credo_check:
+    - test:
         requires:
             - build
