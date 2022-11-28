@@ -1,0 +1,46 @@
+version: 2.1
+executors:
+  minimal-elixir:
+    docker:
+      - image: hexpm/elixir:1.14.0-erlang-24.3-alpine-3.15.0
+        environment:
+          DOCKER_ENV: test
+          MIX_ENV: test
+jobs:
+    build:
+      executor: minimal-elixir      
+      steps:
+      - run: apk add --update -qq alpine-sdk
+      - checkout
+      - run: mix local.hex --force
+      - run: mix local.rebar --force
+      - run: mix do deps.get, deps.compile
+      - run: mix format --check-formatted
+      - run: mix credo --strict
+    test:
+      docker:
+      - image: hexpm/elixir:1.14.0-erlang-24.3-alpine-3.15.0
+        environment:
+          MIX_ENV: test
+          DOCKER_ENV: test
+      - image: postgres:13.1-alpine
+        environment:
+          POSTGRES_USER: "postgres"
+          POSTGRES_PASSWORD: "postgres" 
+      steps:
+      - run: apk add --update -qq alpine-sdk
+      - checkout
+      - run: mix local.hex --force
+      - run: mix local.rebar --force
+      - run: mix do deps.get, deps.compile
+      - run: mix do ecto.create, ecto.migrate
+      - run: mix test
+
+workflows:
+  version: 2.
+  build_and_test:
+    jobs:
+    - build
+    - test:
+        requires:
+            - build
