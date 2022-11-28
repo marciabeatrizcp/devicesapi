@@ -22,7 +22,6 @@ jobs:
       - run: mix local.rebar --force
       - run: mix do deps.get
       - run: mix format --check-formatted
-      - run: mix credo --strict
     credo_check:
       executor: minimal-elixir
       steps:
