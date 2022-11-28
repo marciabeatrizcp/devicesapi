@@ -18,6 +18,7 @@ jobs:
     format_credo_check:
       executor: minimal-elixir
       steps:
+      - run: apk add --update -qq alpine-sdk
       - checkout
       - run: mix local.hex --force
       - run: mix local.rebar --force
