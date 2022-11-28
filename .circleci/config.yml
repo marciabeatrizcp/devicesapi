@@ -18,13 +18,22 @@ jobs:
       - run: mix format --check-formatted
       - run: mix credo --strict
     test:
-      executor: minimal-elixir      
+      docker:
+      - image: hexpm/elixir:1.14.0-erlang-24.3-alpine-3.15.0
+        environment:
+          MIX_ENV: test
+          DOCKER_ENV: test
+      - image: postgres:13.1-alpine
+        environment:
+          POSTGRES_USER: "postgres"
+          POSTGRES_PASSWORD: "postgres" 
       steps:
       - run: apk add --update -qq alpine-sdk
       - checkout
       - run: mix local.hex --force
       - run: mix local.rebar --force
       - run: mix do deps.get, deps.compile
+      - run: mix ecto.create, ecto.migrate
       - run: mix test
 
 workflows:
