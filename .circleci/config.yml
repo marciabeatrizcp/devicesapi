@@ -8,9 +8,9 @@ executors:
           MIX_ENV: test
 jobs:
     build:
-      executor: minimal-elixir
-      - run: apk add --update -qq alpine-sdk bash openssh git yamllint
+      executor: minimal-elixir      
       steps:
+      - run: apk add --update -qq alpine-sdk
       - checkout
       - run: mix local.hex --force
       - run: mix local.rebar --force
