@@ -1,7 +1,9 @@
-defmodule DevicesApi.ChangesetValidation do
+defmodule DevicesApi.Changesets do
   @moduledoc """
   Helper functions to work with changeset validations.
   """
+
+  alias DevicesApi.ValueObject
   alias Ecto.Changeset
 
   # Validation email regex
@@ -18,8 +20,12 @@ defmodule DevicesApi.ChangesetValidation do
     end)
   end
 
-  def cast_and_aply_changes(schema, params) when is_atom(schema) and is_map(params) do
-    %schema{}
+  @doc "Cast and apply changeset"
+  @spec cast_and_aply(schema :: atom(), params :: map() | struct()) ::
+          {:ok, Changeset.t()} | {:error, :invalid_params, Changeset.t()}
+  def cast_and_aply(schema, params) when is_atom(schema) and is_map(params) do
+    %{}
+    |> schema.__struct__()
     |> schema.changeset(params)
     |> case do
       %{valid?: true} = changeset ->

@@ -2,9 +2,9 @@ defmodule DevicesApi.Users.Inputs.SignupRequestInput do
   @moduledoc """
   Create user input type.
   """
-  use DevicesApi.ValueObjectSchema
+  use DevicesApi.ValueObject
 
-  import DevicesApi.ChangesetValidation, only: [validate_email: 2]
+  alias DevicesApi.Changesets
 
   @required [:name, :email, :password]
 
@@ -24,6 +24,6 @@ defmodule DevicesApi.Users.Inputs.SignupRequestInput do
     |> validate_required(@required)
     |> validate_length(:name, min: 3)
     |> validate_length(:password, min: 6)
-    |> validate_email(:email)
+    |> Changesets.validate_email(:email)
   end
 end
