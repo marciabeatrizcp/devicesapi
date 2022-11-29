@@ -13,7 +13,7 @@ defmodule DevicesApiWeb.UsersController do
   @doc "Signs a user up with password"
   @spec create(conn :: Plug.Conn.t(), map) :: Plug.Conn.t()
   def create(conn, params) do
-    with {:ok, data} <- ChangesetValidation.cast_and_aply_changes(SignupRequestInput, params),
+    with {:ok, input} <- ChangesetValidation.cast_and_aply_changes(SignupRequestInput, params),
          {:ok, user} <- Users.create(data) do
       conn
       |> put_status(:created)
