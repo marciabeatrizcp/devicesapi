@@ -1,6 +1,6 @@
 defmodule DevicesApi.Users.Inputs.SignupRequestInput do
   @moduledoc """
-  Create input type.
+  Create user input type.
   """
   use DevicesApi.ValueObjectSchema
 
