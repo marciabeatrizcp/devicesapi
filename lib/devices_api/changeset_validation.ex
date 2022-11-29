@@ -19,8 +19,7 @@ defmodule DevicesApi.ChangesetValidation do
   end
 
   def cast_and_aply_changes(schema, params) when is_atom(schema) and is_map(params) do
-    %{}
-    |> schema.__struct__()
+    %schema{}
     |> schema.changeset(params)
     |> case do
       %{valid?: true} = changeset ->
