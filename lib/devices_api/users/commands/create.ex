@@ -18,7 +18,7 @@ defmodule DevicesApi.Users.Commands.Create do
           {:error, Ecto.Changeset.t()} | {:ok, Ecto.Schema.t()}
   def execute(%SignupRequestInput{} = input) do
     with %Ecto.Changeset{valid?: true} = changeset <-
-           User.changeset(ValueObject.convert_map_from_struct(input)),
+           User.changeset(ValueObject.to_map(input)),
          {:ok, user} <- Repo.insert(changeset) do
       {:ok, user}
     else
