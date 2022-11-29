@@ -8,8 +8,7 @@ defmodule DevicesApi.Users.Commands.Get do
   @spec execute(id :: String.t()) :: {:ok, Ecto.UUID.t()} | {:error, Atom.t(), String.t()}
   def execute(id) do
     with {:id, {:ok, _}} <- {:id, Ecto.UUID.cast(id)},
-         {:ok, %User{} = user} <-
-           {:ok, Repo.get(User, id)} do
+         {:ok, %User{} = user} <- {:ok, Repo.get(User, id)} do
       {:ok, user}
     else
       {:id, :error} -> {:error, :invalid_params, "Invalid ID format!"}
