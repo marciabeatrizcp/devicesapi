@@ -24,7 +24,7 @@ defmodule DevicesApi.Users.Commands.Create do
     end
   end
 
-  defp do_changeset(%{name: name, email: email, password: password}) do
-    User.changeset(%{name: name, email: email, password: password})
+  defp do_changeset(%{name: name, email: email, password: password} = params) do
+    User.changeset(params)
   end
 end
