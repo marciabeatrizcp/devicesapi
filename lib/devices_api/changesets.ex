@@ -3,7 +3,6 @@ defmodule DevicesApi.Changesets do
   Helper functions to work with changeset validations.
   """
 
-  alias DevicesApi.ValueObject
   alias Ecto.Changeset
 
   # Validation email regex
