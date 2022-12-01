@@ -7,14 +7,8 @@ defmodule DevicesApi.Users.Commands.Create do
   alias DevicesApi.Users.Inputs.SignupRequestInput
   alias DevicesApi.Users.Schemas.User
 
-  @type user_params :: %{
-          name: String.t(),
-          password: String.t(),
-          email: String.t()
-        }
-
   @spec execute(input :: SignupRequestInput.t()) ::
-          {:error, Ecto.Changeset.t()} | {:ok, struct()}
+          {:error, Ecto.Changeset.t()} | {:ok, User.t()}
   def execute(%SignupRequestInput{} = input) do
     with %Ecto.Changeset{valid?: true} = changeset <-
            User.changeset(_build_create(input)),
