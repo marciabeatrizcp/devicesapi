@@ -43,7 +43,7 @@ jobs:
       - run: mix local.hex --force
       - run: mix local.rebar --force
       - run: mix do deps.get, deps.compile
-      - run: mix test
+      - run: mix test --warnings-as-errors
 
 workflows:
   build_and_test:
