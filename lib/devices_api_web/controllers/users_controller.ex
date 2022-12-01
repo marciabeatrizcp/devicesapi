@@ -14,7 +14,7 @@ defmodule DevicesApiWeb.UsersController do
   @spec create(conn :: Plug.Conn.t(), map) ::
           {:error, :invalid_params, Ecto.Changeset.t()} | Plug.Conn.t()
   def create(conn, params) do
-    with {:ok, input} <- Changesets.cast_and_aply(SignupRequestInput, params),
+    with {:ok, input} <- Changesets.cast_and_apply(SignupRequestInput, params),
          {:ok, user} <- Users.create(input) do
       conn
       |> put_status(:created)
