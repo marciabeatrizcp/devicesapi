@@ -6,7 +6,7 @@ defmodule DevicesApi.Users.Commands.Get do
   alias DevicesApi.Users.Schemas.User
 
   @spec execute(id :: String.t()) ::
-          {:ok, %User{}} | {:error, :invalid_params | :not_found, String.t()}
+          {:ok, struct()} | {:error, :invalid_params | :not_found, String.t()}
   def execute(id) do
     with {:ok, uuid} <- Ecto.UUID.cast(id),
          %User{} = user <- Repo.get(User, uuid) do
