@@ -14,8 +14,4 @@ defmodule DevicesApi.ValueObject do
       @type t() :: %__MODULE__{}
     end
   end
-
-  @doc "Converts a struct to a map"
-  @spec to_map(struct()) :: map()
-  def to_map(params), do: Map.from_struct(params)
 end
