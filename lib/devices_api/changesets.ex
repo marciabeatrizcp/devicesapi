@@ -22,9 +22,9 @@ defmodule DevicesApi.Changesets do
   @doc "Cast and apply changeset"
   @spec cast_and_apply(model :: atom(), params :: struct()) ::
           {:ok, struct()} | {:error, :invalid_params, struct()}
-  def cast_and_apply(model, params) when is_atom(model) and is_map(model) do
+  def cast_and_apply(model, params) do
     params
-    |> model.changeset(params)
+    |> model.changeset()
     |> case do
       %{valid?: true} = changeset ->
         {:ok, Changeset.apply_changes(changeset)}
