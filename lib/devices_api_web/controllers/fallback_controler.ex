@@ -6,7 +6,7 @@ defmodule DevicesApiWeb.FallbackControler do
   use DevicesAPIWeb, :controller
 
   @doc "Response the changeset error or bad request error"
-  @spec call(conn :: Plug.Conn.t(), {:error, Ecto.Changeset.t()}) :: Plug.Conn.t()
+  @spec call(conn :: Plug.Conn.t(), {:error, Ecto.Changeset.t()}) :: struct()
   def call(conn, {:error, %Ecto.Changeset{errors: errors}}) do
     render_error(conn, :unprocessable_entity, errors, "field_errors.json")
   end
@@ -19,7 +19,7 @@ defmodule DevicesApiWeb.FallbackControler do
     render_error(conn, :bad_request, message)
   end
 
-  @spec call(conn :: Plug.Conn.t(), {:error, Atom.t(), String.t()}) :: Plug.Conn.t()
+  @spec call(conn :: Plug.Conn.t(), {:error, atom(), String.t()}) :: Plug.Conn.t()
   def call(conn, {:error, :not_found, message}) do
     render_error(conn, :not_found, message)
   end

@@ -52,7 +52,8 @@ defmodule DevicesAPI.MixProject do
       {:argon2_elixir, "~> 3.0"},
       {:ex_doc, "~> 0.29.1", only: :dev, runtime: false},
       {:excoveralls, "~> 0.15.1", only: :test},
-      {:credo, "~> 1.6.2", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.6.2", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.0", only: [:dev], runtime: false}
     ]
   end
 

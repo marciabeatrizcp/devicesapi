@@ -21,7 +21,7 @@ defmodule DevicesApi.Changesets do
 
   @doc "Cast and apply changeset"
   @spec cast_and_aply(schema :: atom(), params :: map() | struct()) ::
-          {:ok, Changeset.t()} | {:error, :invalid_params, Changeset.t()}
+          {:ok, struct()} | {:error, :invalid_params, struct()}
   def cast_and_aply(schema, params) when is_atom(schema) and is_map(params) do
     %{}
     |> schema.__struct__()

@@ -14,7 +14,7 @@ defmodule DevicesApi.Users.Commands.Create do
         }
 
   @spec execute(input :: SignupRequestInput.t()) ::
-          {:error, Ecto.Changeset.t()} | {:ok, Ecto.Schema.t()}
+          {:error, Ecto.Changeset.t()} | {:ok, %User{}}
   def execute(%SignupRequestInput{} = input) do
     with %Ecto.Changeset{valid?: true} = changeset <-
            User.changeset(build_create(input)),
