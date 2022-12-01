@@ -8,12 +8,9 @@ defmodule DevicesApi.Users.Commands.Get do
   @spec execute(id :: String.t()) ::
           {:ok, struct()} | {:error, :invalid_params | :not_found, String.t()}
   def execute(id) do
-    with {:ok, uuid} <- Ecto.UUID.cast(id),
-         %User{} = user <- Repo.get(User, uuid) do
-      {:ok, user}
-    else
-      :error -> {:error, :invalid_params, "Invalid ID format!"}
-      nil -> {:error, :not_found, "User not found!"}
+    case Repo.get(User, id) do
+      %User{} = user -> {:ok, user}
+      nil -> {:error, :not_found}
     end
   end
 end

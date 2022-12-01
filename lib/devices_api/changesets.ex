@@ -30,7 +30,7 @@ defmodule DevicesApi.Changesets do
         {:ok, Changeset.apply_changes(changeset)}
 
       changeset ->
-        {:error, :invalid_params, changeset}
+        {:error, {:invalid_params, changeset}}
     end
   end
 end
