@@ -11,6 +11,7 @@ defmodule DevicesApiWeb.FallbackControler do
     render_error(conn, :unprocessable_entity, errors, "field_errors.json")
   end
 
+  @spec call(conn :: Plug.Conn.t(), {:error, {atom(), Ecto.Changeset.t()}}) :: Plug.Conn.t()
   def call(conn, {:error, {:invalid_params, %Ecto.Changeset{errors: errors}}}) do
     render_error(conn, :bad_request, errors, "field_errors.json")
   end
