@@ -1,5 +1,5 @@
 # Devices API
-API for user and device management
+API for users and devices management
 
 ## Requirements:
   * run this command `asdf install` 
