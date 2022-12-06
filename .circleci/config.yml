@@ -1,0 +1,54 @@
+version: 2.1
+executors:
+  elixir:
+    docker:
+      - image: hexpm/elixir:1.14.2-erlang-25.1.2-alpine-3.16.2
+        environment:
+          MIX_ENV: test
+  elixir_and_postgres:
+    docker:
+      - image: hexpm/elixir:1.14.2-erlang-25.1.2-alpine-3.16.2
+        environment:
+          MIX_ENV: test
+      - image: postgres:13.1-alpine
+        environment:
+          POSTGRES_USER: "postgres"
+          POSTGRES_PASSWORD: "postgres" 
+jobs:
+    build_and_lint:
+      executor: elixir
+      steps:
+      - run: apk add --update -qq alpine-sdk
+      - checkout
+      - run: mix local.hex --force
+      - run: mix local.rebar --force
+      - run: mix do deps.get, deps.compile
+      - run: mix format --check-formatted
+      - run: mix credo --strict
+    test:
+      executor: elixir_and_postgres
+      steps:
+      - run: apk add --update -qq alpine-sdk
+      - run:
+          name: Waiting for Postgres to be ready
+          command: |
+            for i in `seq 1 10`;
+            do
+              nc -z localhost 5432 && echo Success && exit 0
+              echo -n .
+              sleep 1
+            done
+            echo Failed waiting for Postgres && exit 1
+      - checkout
+      - run: mix local.hex --force
+      - run: mix local.rebar --force
+      - run: mix do deps.get, deps.compile
+      - run: mix test --warnings-as-errors
+
+workflows:
+  build_and_test:
+    jobs:
+    - build_and_lint
+    - test:
+        requires:
+          - build_and_lint

@@ -5,7 +5,7 @@ defmodule DevicesApiWeb.UsersViewTest do
 
   alias DevicesApi.Users.Schemas.User
 
-  test "renders create.json" do
+  test "renders user.json" do
     user = %User{
       id: "b951aad2-8f6d-4d1e-867a-042fd1ff19cc",
       name: "Beatriz",
@@ -14,7 +14,7 @@ defmodule DevicesApiWeb.UsersViewTest do
       updated_at: ~N[2022-11-09 14:50:10]
     }
 
-    assert render(DevicesApiWeb.UsersView, "create.json", %{user: user}) == %{
+    assert render(DevicesApiWeb.UsersView, "user.json", %{user: user}) == %{
              email: "beatriz@gmail7.com.br",
              id: "b951aad2-8f6d-4d1e-867a-042fd1ff19cc",
              inserted_at: ~N[2022-11-09 14:50:10],
