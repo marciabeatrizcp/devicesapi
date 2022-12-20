@@ -21,6 +21,11 @@ defmodule DevicesApiWeb.FallbackControler do
     render_error(conn, :not_found, message)
   end
 
+  @spec call(conn :: Plug.Conn.t(), {:error, {atom(), String.t()}}) :: Plug.Conn.t()
+  def call(conn, {:error, {:forbidden, message}}) do
+    render_error(conn, :forbidden, message)
+  end
+
   @spec call(conn :: Plug.Conn.t(), {:error, String.t()}) :: Plug.Conn.t()
   def call(conn, {:error, message}) do
     render_error(conn, :bad_request, message)

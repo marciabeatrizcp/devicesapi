@@ -3,14 +3,16 @@ defmodule DevicesApiWeb.UsersController do
   Endpoints to handle Users
   """
   alias DevicesApi.Changesets
+  alias DevicesApi.Signin
   alias DevicesApi.Users
+  alias DevicesApi.Users.Inputs.SigninRequestInput
   alias DevicesApi.Users.Inputs.SignupRequestInput
 
   use DevicesAPIWeb, :controller
 
-  action_fallback DevicesApiWeb.FallbackControler
+  action_fallback(DevicesApiWeb.FallbackControler)
 
-  @doc "Signs a user up with password"
+  @doc "Signups a user up with password"
   @spec create(conn :: Plug.Conn.t(), map) ::
           {:error, :invalid_params, Ecto.Changeset.t()} | Plug.Conn.t()
   def create(conn, params) do
@@ -34,6 +36,23 @@ defmodule DevicesApiWeb.UsersController do
     else
       :error -> {:error, "Invalid ID format!"}
       {:error, :not_found} -> {:error, {:not_found, "User not found!"}}
+    end
+  end
+
+  @doc "Signs a user"
+  @spec sign_in(conn :: Plug.Conn.t(), map) ::
+          {:error, {:invalid_params, Ecto.Changeset.t()}}
+          | {:error, {:forbidden, String.t()}}
+          | Plug.Conn.t()
+  def sign_in(conn, params) do
+    with {:ok, input} <- Changesets.cast_and_apply(SigninRequestInput, params),
+         {:ok, token} <- Signin.execute(input) do
+      conn
+      |> put_status(:ok)
+      |> render("signin.json", token: token)
+    else
+      {:error, {:invalid_params, changeset}} -> {:error, {:invalid_params, changeset}}
+      {:error, :forbidden} -> {:error, {:forbidden, "Invalid Credentials!"}}
     end
   end
 end

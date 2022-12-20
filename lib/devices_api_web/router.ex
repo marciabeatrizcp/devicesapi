@@ -9,6 +9,7 @@ defmodule DevicesAPIWeb.Router do
     pipe_through :api
     post "/users/signup", UsersController, :create
     get "/users/:id", UsersController, :show
+    post "/users/signin", UsersController, :sign_in
   end
 
   if Mix.env() in [:dev, :test] do

@@ -129,6 +129,50 @@ defmodule DevicesApiWeb.UserControllerTest do
     end
   end
 
+  describe "POST /users/signin" do
+    test "successfully user signin when input is valid", %{conn: conn} do
+      user_insert()
+
+      request = %{
+        email: "beatriz@gmail.com",
+        password: "123456"
+      }
+
+      assert %{"token" => _} =
+               conn
+               |> post("/users/signin", request)
+               |> json_response(:ok)
+    end
+
+    test "fail user signin when password is wrong", %{conn: conn} do
+      user_insert()
+
+      request = %{
+        email: "beatriz@gmail.com",
+        password: "123455"
+      }
+
+      assert %{"error" => "Invalid Credentials!"} =
+               conn
+               |> post("/users/signin", request)
+               |> json_response(:forbidden)
+    end
+
+    test "fail user signin when email was not found", %{conn: conn} do
+      user_insert()
+
+      request = %{
+        email: "beatriz1@gmail.com",
+        password: "123456"
+      }
+
+      assert %{"error" => "Invalid Credentials!"} =
+               conn
+               |> post("/users/signin", request)
+               |> json_response(:forbidden)
+    end
+  end
+
   defp user_insert do
     user_params = %SignupRequestInput{
       name: "Beatriz Domingues",

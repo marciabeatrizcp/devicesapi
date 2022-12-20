@@ -3,6 +3,8 @@ defmodule DevicesApi.Users do
   Delegate functions to handle users context
   """
   alias DevicesApi.Users.Commands.{Create, Get}
+  alias DevicesApi.Users.Inputs.SignupRequestInput
+  alias DevicesApi.Users.Schemas.User
 
   @doc """
   Inserts a user into the database.
@@ -17,11 +19,12 @@ defmodule DevicesApi.Users do
     iex> {:error, %Ecto.Changeset{}} = execute(%{})
 
   """
-
+  @spec create(SignupRequestInput.t()) ::
+          {:error, Ecto.Changeset.t()} | {:ok, User.t()}
   defdelegate create(params), to: Create, as: :execute
 
   @doc """
-  Retrieves a user from database.
+  Gets a `User` by id
 
   ## Examples
 
@@ -32,6 +35,7 @@ defmodule DevicesApi.Users do
     iex> {:error, "Invalid ID format!"} = execute(invalid_user_id)
 
   """
-
+  @spec get(binary) ::
+          {:ok, User.t()} | {:error, :not_found, String.t()} | {:error, String.t()}
   defdelegate get(params), to: Get, as: :execute
 end
