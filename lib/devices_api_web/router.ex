@@ -5,10 +5,19 @@ defmodule DevicesAPIWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :api_auth do
+    plug :accepts, ["json"]
+    plug DevicesApiWeb.Auth.JwtAuthPlug
+  end
+
+  scope "/", DevicesApiWeb do
+    pipe_through :api_auth
+    get "/users/:id", UsersController, :show
+  end
+
   scope "/", DevicesApiWeb do
     pipe_through :api
     post "/users/signup", UsersController, :create
-    get "/users/:id", UsersController, :show
     post "/users/signin", UsersController, :sign_in
   end
 

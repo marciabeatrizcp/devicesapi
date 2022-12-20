@@ -10,10 +10,7 @@ defmodule DevicesApi.Token.JwtAuthToken do
     expired_in = token_expiration()
 
     # JSON Web Keys
-    jwk = %{
-      "kty" => "oct",
-      "k" => encode_secret()
-    }
+    jwk = build_jwk()
 
     # JSON Web Signature (JWS)*
     jws = %{
@@ -41,6 +38,13 @@ defmodule DevicesApi.Token.JwtAuthToken do
       {true, claims, _} -> {:ok, claims}
       _ -> {:error, "Token signature verification failed!"}
     end
+  end
+
+  def build_jwk do
+    %{
+      "kty" => "oct",
+      "k" => encode_secret()
+    }
   end
 
   defp encode_secret do
