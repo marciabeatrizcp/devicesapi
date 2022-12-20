@@ -54,10 +54,7 @@ defmodule DevicesAPI.MixProject do
       {:excoveralls, "~> 0.15.1", only: :test},
       {:credo, "~> 1.6.2", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
-      # Tokens
-      {:jose, "~> 1.11.2"},
-      {:joken, "~> 2.5.0"},
-      {:joken_jwks, "~> 1.6.0"}
+      {:jose, "~> 1.11.2"}
     ]
   end
 
