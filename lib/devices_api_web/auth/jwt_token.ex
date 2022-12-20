@@ -44,11 +44,11 @@ defmodule DevicesApiWeb.Auth.JwtToken do
   @doc "Verifies secret"
   @spec verify_claims(JOSE.JWT.t()) :: {:error, String.t()} | {:ok, JOSE.JWT.t()}
   def verify_claims(%JOSE.JWT{fields: fields} = claims) do
-    with %{"exp" => exp} = fields,
-         {:ok, expiration_as_datetime} = DateTime.from_unix(exp),
-         :gt <- DateTime.compare(expiration_as_datetime, DateTime.utc_now()) do
-      {:ok, claims}
-    else
+    %{"exp" => exp} = fields
+    {:ok, expiration_as_datetime} = DateTime.from_unix(exp)
+
+    case DateTime.compare(expiration_as_datetime, DateTime.utc_now()) do
+      :gt -> {:ok, claims}
       _ -> {:error, "Token is expired!"}
     end
   end

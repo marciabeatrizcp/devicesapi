@@ -1,4 +1,8 @@
 defmodule DevicesApiWeb.Auth.JwtAuthPlug do
+  @moduledoc """
+  Enables token verification
+  """
+
   import Plug.Conn
 
   alias DevicesApiWeb.Auth.JwtToken
@@ -19,9 +23,8 @@ defmodule DevicesApiWeb.Auth.JwtAuthPlug do
   end
 
   defp extract_token(conn) do
-    with ["Bearer " <> token] <- get_req_header(conn, "authorization") do
-      {:ok, token}
-    else
+    case get_req_header(conn, "authorization") do
+      ["Bearer " <> token] -> {:ok, token}
       _ -> {:error, "No authorization token found!"}
     end
   end

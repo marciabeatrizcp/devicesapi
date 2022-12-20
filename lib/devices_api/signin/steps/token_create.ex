@@ -2,8 +2,8 @@ defmodule DevicesApi.Signin.Steps.TokenCreate do
   @moduledoc """
   Gets a user by filter
   """
-  alias DevicesApiWeb.Auth.JwtToken
   alias DevicesApi.Users.Schemas.User
+  alias DevicesApiWeb.Auth.JwtToken
 
   @spec execute(User.t()) :: {:ok, String.t()}
   @doc "Creates a token"

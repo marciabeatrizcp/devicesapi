@@ -227,7 +227,7 @@ defmodule DevicesApiWeb.UserControllerTest do
     token
   end
 
-  defp generate_token() do
+  defp generate_token do
     {:ok, token} = JwtToken.create("aaaf1f3f-4576-42f2-b3f1-55ca8241e0aa", "beatriz@gmail.com", -10)
     token
   end
