@@ -5,6 +5,12 @@ config :devices_api,
   ecto_repos: [DevicesAPI.Repo],
   generators: [binary_id: true]
 
+# Configures the token
+config :devices_api, DevicesApi.Token.JwtAuthToken,
+  jwt_issuer: "deviceapi.com.br",
+  jwt_expiration_time_minutes: 30,
+  jwt_secret_hs256_signature: "oh my god"
+
 # Configures the endpoint
 config :devices_api, DevicesAPIWeb.Endpoint,
   url: [host: "localhost"],
