@@ -1,8 +1,10 @@
 defmodule DevicesApiWeb.UserControllerTest do
   use DevicesAPIWeb.ConnCase
 
+  alias DevicesApi.Signin
   alias DevicesApi.Users
   alias DevicesApi.Users.Inputs.SignupRequestInput
+  alias DevicesApiWeb.Auth.JwtToken
 
   describe "POST /users/signup" do
     test "successfully create account when input is valid", %{conn: conn} do
@@ -98,15 +100,22 @@ defmodule DevicesApiWeb.UserControllerTest do
   end
 
   describe "GET /users/signup:id" do
-    test "successfully gets a user given a valid UUID", %{conn: conn} do
+    setup %{conn: conn} do
       new_user = user_insert()
 
+      token = user_sign_in("beatriz@gmail.com", "123456")
+
+      conn = put_req_header(conn, "authorization", "Bearer #{token}")
+      {:ok, conn: conn, user: new_user, token: token}
+    end
+
+    test "successfully gets a user given a valid UUID", %{conn: conn, user: user} do
       assert %{
                "email" => "beatriz@gmail.com",
                "name" => "Beatriz Domingues"
              } =
                conn
-               |> get("/users/#{new_user.id}")
+               |> get("/users/#{user.id}")
                |> json_response(:ok)
     end
 
@@ -126,6 +135,34 @@ defmodule DevicesApiWeb.UserControllerTest do
                conn
                |> get("/users/#{id}")
                |> json_response(:not_found)
+    end
+
+    test "fails when no authorization token found", %{conn: conn, user: user} do
+      conn = delete_req_header(conn, "authorization")
+
+      assert %{"error" => "No authorization token found!"} =
+               conn
+               |> get("/users/#{user.id}")
+               |> json_response(:unauthorized)
+    end
+
+    test "fails when token signed fails", %{conn: conn, user: user, token: token} do
+      conn = put_req_header(conn, "authorization", "Bearer #{token <> "invalid"}")
+
+      assert %{"error" => "Token signature verification failed!"} =
+               conn
+               |> get("/users/#{user.id}")
+               |> json_response(:unauthorized)
+    end
+
+    test "fails when token is expired", %{conn: conn, user: user} do
+      token = generate_token()
+      conn = put_req_header(conn, "authorization", "Bearer #{token}")
+
+      assert %{"error" => "Token is expired!"} =
+               conn
+               |> get("/users/#{user.id}")
+               |> json_response(:unauthorized)
     end
   end
 
@@ -183,5 +220,15 @@ defmodule DevicesApiWeb.UserControllerTest do
     {:ok, user} = Users.create(user_params)
 
     user
+  end
+
+  defp user_sign_in(email, password) do
+    {:ok, token} = Signin.execute(%{email: email, password: password})
+    token
+  end
+
+  defp generate_token() do
+    {:ok, token} = JwtToken.create("aaaf1f3f-4576-42f2-b3f1-55ca8241e0aa", "beatriz@gmail.com", -10)
+    token
   end
 end

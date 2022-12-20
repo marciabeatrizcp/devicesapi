@@ -1,4 +1,4 @@
-defmodule DevicesApi.Token.JwtAuthToken do
+defmodule DevicesApiWeb.Auth.JwtToken do
   @moduledoc """
   Functions to handle token context
   """
@@ -6,8 +6,8 @@ defmodule DevicesApi.Token.JwtAuthToken do
   @doc "Creates a token"
   @spec create(id :: String.t(), email :: String.t()) ::
           :error | {:ok, String.t()}
-  def create(id, email) do
-    expired_in = token_expiration()
+  def create(id, email, expired_in \\ nil) do
+    expired_in = token_expiration(expired_in)
 
     # JSON Web Keys
     jwk = build_jwk()
@@ -26,43 +26,60 @@ defmodule DevicesApi.Token.JwtAuthToken do
       "email" => email
     }
 
-    {_, token} = JOSE.JWT.sign(jwk, jws, jwt) |> JOSE.JWS.compact()
+    token = JOSE.JWT.sign(jwk, jws, jwt) |> JOSE.JWS.compact() |> elem(1)
 
     {:ok, token}
   end
 
-  @spec token_verify(jwk :: map(), token :: String.t()) ::
-          {:error, String.t()} | {:ok, {:jose_jwt, map} | JOSE.JWT.t()}
-  def token_verify(jwk, token) do
-    case JOSE.JWT.verify(jwk, token) do
+  @doc "Verifies signature"
+  @spec verify_signature(any) ::
+          {:error, String.t()} | {:ok, list | {:jose_jwt, map} | JOSE.JWT.t()}
+  def verify_signature(token) do
+    case JOSE.JWT.verify(build_jwk(), token) do
       {true, claims, _} -> {:ok, claims}
       _ -> {:error, "Token signature verification failed!"}
     end
   end
 
-  def build_jwk do
-    %{
-      "kty" => "oct",
-      "k" => encode_secret()
-    }
+  @doc "Verifies secret"
+  @spec verify_claims(JOSE.JWT.t()) :: {:error, String.t()} | {:ok, JOSE.JWT.t()}
+  def verify_claims(%JOSE.JWT{fields: fields} = claims) do
+    with %{"exp" => exp} = fields,
+         {:ok, expiration_as_datetime} = DateTime.from_unix(exp),
+         :gt <- DateTime.compare(expiration_as_datetime, DateTime.utc_now()) do
+      {:ok, claims}
+    else
+      _ -> {:error, "Token is expired!"}
+    end
   end
 
-  defp encode_secret do
+  @doc "Encodes secret"
+  @spec encode_secret :: binary
+  def encode_secret do
     :devices_api
     |> Application.get_env(__MODULE__)
     |> Keyword.get(:jwt_secret_hs256_signature)
     |> :jose_base64url.encode()
   end
 
-  defp token_expiration do
+  defp token_expiration(nil) do
     :devices_api
     |> Application.get_env(__MODULE__)
     |> Keyword.get(:jwt_expiration_time_minutes)
   end
 
+  defp token_expiration(value), do: value
+
   defp token_issuer do
     :devices_api
     |> Application.get_env(__MODULE__)
     |> Keyword.get(:jwt_issuer)
+  end
+
+  defp build_jwk do
+    %{
+      "kty" => "oct",
+      "k" => encode_secret()
+    }
   end
 end

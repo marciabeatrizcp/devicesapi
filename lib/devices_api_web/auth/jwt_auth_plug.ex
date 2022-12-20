@@ -1,47 +1,35 @@
 defmodule DevicesApiWeb.Auth.JwtAuthPlug do
   import Plug.Conn
 
-  alias DevicesApi.Token.JwtAuthToken
+  alias DevicesApiWeb.Auth.JwtToken
 
   def init(opts) do
     opts
   end
 
-  defp get_jwk() do
-    JwtAuthToken.build_jwk()
-  end
-
-  defp authenticate({conn, "Bearer " <> jwt}) do
-    case JwtAuthToken.token_verify(get_jwk(), jwt) do
-      {:ok, claims} -> assign(conn, :user, claims)
-      {:error, err} -> send_401(conn, %{error: err})
+  def call(%Plug.Conn{request_path: _path} = conn, _opts) do
+    with {:ok, token} <- extract_token(conn),
+         {:ok, claims} <- JwtToken.verify_signature(token),
+         {:ok, claims} <- JwtToken.verify_claims(claims) do
+      conn
+      |> assign(:current_user, claims)
+    else
+      {:error, _ = message} -> unauthorize(conn, message)
     end
   end
 
-  defp authenticate(_) do
-    :error
+  defp extract_token(conn) do
+    with ["Bearer " <> token] <- get_req_header(conn, "authorization") do
+      {:ok, token}
+    else
+      _ -> {:error, "No authorization token found!"}
+    end
   end
 
-  defp send_401(
-         conn,
-         data
-       ) do
+  defp unauthorize(conn, message) do
     conn
     |> put_resp_content_type("application/json")
-    |> send_resp(401, Jason.encode!(data))
-    |> halt
-  end
-
-  defp get_auth_header(conn) do
-    case get_req_header(conn, "authorization") do
-      [token] -> {conn, token}
-      _ -> {conn}
-    end
-  end
-
-  def call(%Plug.Conn{request_path: _path} = conn, _opts) do
-    conn
-    |> get_auth_header
-    |> authenticate
+    |> send_resp(:unauthorized, Jason.encode!(%{error: message}))
+    |> halt()
   end
 end
