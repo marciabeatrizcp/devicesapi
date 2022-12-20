@@ -29,7 +29,7 @@ defmodule DevicesApi.Token.JwtAuthToken do
       "email" => email
     }
 
-    {_, token} = JOSE.JWT.sign(jwk, jws, jwt) |> JOSE.JWS.compact()
+    token = JOSE.JWT.sign(jwk, jws, jwt) |> JOSE.JWS.compact() |> elem(1)
 
     {:ok, token}
   end
