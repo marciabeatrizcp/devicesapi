@@ -5,9 +5,8 @@ defmodule DevicesApi.Signin.Steps.TokenCreate do
   alias DevicesApi.Token.JwtAuthToken
   alias DevicesApi.Users.Schemas.User
 
+  @spec execute(User.t()) :: {:ok, String.t()}
   @doc "Creates a token"
-  # @spec create(user :: User.t()) ::
-  # :error | {:ok, String.t()}
   def execute(%User{} = user) do
     JwtAuthToken.create(user.id, user.email)
   end

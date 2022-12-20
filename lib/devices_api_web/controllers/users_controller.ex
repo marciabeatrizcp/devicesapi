@@ -12,7 +12,7 @@ defmodule DevicesApiWeb.UsersController do
 
   action_fallback(DevicesApiWeb.FallbackControler)
 
-  @doc "Signups a user up with password"
+  @doc "Executes a user sign up"
   @spec create(conn :: Plug.Conn.t(), map) ::
           {:error, :invalid_params, Ecto.Changeset.t()} | Plug.Conn.t()
   def create(conn, params) do
@@ -39,7 +39,7 @@ defmodule DevicesApiWeb.UsersController do
     end
   end
 
-  @doc "Signs a user"
+  @doc "Executes a user sign in"
   @spec sign_in(conn :: Plug.Conn.t(), map) ::
           {:error, {:invalid_params, Ecto.Changeset.t()}}
           | {:error, {:forbidden, String.t()}}
