@@ -1,6 +1,6 @@
 defmodule DevicesApi.Signin.Inputs.SigninRequestInput do
   @moduledoc """
-  Create sigin input type.
+  Creates sigin input type.
   """
   use DevicesApi.ValueObject
 
