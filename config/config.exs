@@ -9,7 +9,7 @@ config :devices_api,
 config :devices_api, DevicesApiWeb.Auth.JwtToken,
   jwt_issuer: "deviceapi.com.br",
   jwt_expiration_time_minutes: 30,
-  jwt_secret_hs256_signature: "oh my god"
+  jwt_secret_hs256_signature: "secret"
 
 # Configures the endpoint
 config :devices_api, DevicesAPIWeb.Endpoint,
