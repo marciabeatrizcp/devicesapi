@@ -52,7 +52,7 @@ defmodule DevicesApiWeb.UsersController do
       |> render("signin.json", token: token)
     else
       {:error, {:invalid_params, changeset}} -> {:error, {:invalid_params, changeset}}
-      {:error, :forbidden} -> {:error, {:forbidden, "Invalid Credentials!"}}
+      {:error, {:forbidden, message}} -> {:error, {:forbidden, message}}
     end
   end
 end

@@ -10,14 +10,14 @@ defmodule DevicesApi.Signin.Commands.UserSignin do
   alias DevicesApi.Users.Schemas.User
 
   @spec execute(input :: SignupRequestInput.t()) ::
-          {:error, :forbidden} | atom() | {:ok, struct()}
+          {:error, {:forbidden, String.t()}} | atom() | {:ok, struct()}
   def execute(input) do
     with {:ok, %User{} = user} <- IdentifyUser.execute(input.email),
          :ok <- CheckPassword.execute(input.password, user.password_hash) do
       TokenCreate.execute(user)
     else
-      {:error, :not_found} -> {:error, :forbidden}
-      :error -> {:error, :forbidden}
+      {:error, :not_found} -> {:error, {:forbidden, "Invalid Credentials!"}}
+      :error -> {:error, {:forbidden, "Invalid Credentials!"}}
       _ -> :error
     end
   end

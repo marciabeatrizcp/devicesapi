@@ -12,12 +12,12 @@ defmodule DevicesApi.Signin do
 
     iex> {:ok, token} = execute(%{email: valid_email, password: valid_passord})
 
-    iex> {:error, :forbidden} = execute(%{email: valid_email, password: invalid_passord})
+    iex> {:error, :forbidden, message} = execute(%{email: valid_email, password: invalid_passord})
 
-    iex> {:error, :forbidden} = execute(%{email: invalid_email, password: invalid_passord})
+    iex> {:error, :not_foforbiddenund, message} = execute(%{email: invalid_email, password: invalid_passord})
 
 
   """
-  @spec execute(SignupRequestInput.t()) :: {:error, :forbidden}
+  @spec execute(SignupRequestInput.t()) :: {:error, {:forbidden, String.t()}}
   defdelegate execute(input), to: UserSignin, as: :execute
 end
