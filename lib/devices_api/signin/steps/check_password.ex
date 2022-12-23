@@ -1,9 +1,9 @@
 defmodule DevicesApi.Signin.Steps.CheckPassword do
   @moduledoc """
-  Checks input password
+  Compares input password with stored hash password
   """
 
-  @doc "Checks email and password input."
+  @doc "Checks password input."
   @spec execute(password :: String.t(), stored_hash :: String.t()) ::
           :error | :ok
   def execute(password, stored_hash) do
