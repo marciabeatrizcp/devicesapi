@@ -11,7 +11,7 @@ defmodule DevicesApiWeb.Auth.JwtAuthPlug do
     opts
   end
 
-  def call(%Plug.Conn{request_path: _path} = conn, _opts) do
+  def call(conn, _opts) do
     with {:ok, token} <- extract_token(conn),
          {:ok, claims} <- JwtToken.verify_signature(token),
          {:ok, claims} <- JwtToken.verify_claims(claims) do
