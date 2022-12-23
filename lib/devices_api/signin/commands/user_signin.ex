@@ -9,6 +9,7 @@ defmodule DevicesApi.Signin.Commands.UserSignin do
   alias DevicesApi.Signin.Steps.TokenCreate
   alias DevicesApi.Users.Schemas.User
 
+  @doc false
   @spec execute(input :: SigninRequestInput.t()) ::
           {:error, {:forbidden, String.t()}} | atom() | {:ok, String.t()}
   def execute(%SigninRequestInput{} = input) do

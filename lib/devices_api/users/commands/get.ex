@@ -1,10 +1,11 @@
 defmodule DevicesApi.Users.Commands.Get do
   @moduledoc """
-  Gets a user by id
+  Retrieves a single User by its id
   """
   alias DevicesAPI.Repo
   alias DevicesApi.Users.Schemas.User
 
+  @doc "Gets a user by id"
   @spec execute(id :: String.t()) ::
           {:ok, User.t()} | {:error, :invalid_params | :not_found, String.t()}
   def execute(id) do
