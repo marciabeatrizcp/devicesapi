@@ -2,6 +2,7 @@ defmodule DevicesApiWeb.UserControllerTest do
   use DevicesAPIWeb.ConnCase
 
   alias DevicesApi.Signin
+  alias DevicesApi.Signin.Inputs.SigninRequestInput
   alias DevicesApi.Users
   alias DevicesApi.Users.Inputs.SignupRequestInput
   alias DevicesApiWeb.Auth.JwtToken
@@ -99,11 +100,16 @@ defmodule DevicesApiWeb.UserControllerTest do
     end
   end
 
-  describe "GET /users/signup:id" do
+  describe "GET /users/:id" do
     setup %{conn: conn} do
       new_user = user_insert()
 
-      token = user_sign_in("beatriz@gmail.com", "123456")
+      input = %{
+        email: "beatriz@gmail.com",
+        password: "123456"
+      }
+
+      token = user_sign_in(input)
 
       conn = put_req_header(conn, "authorization", "Bearer #{token}")
       {:ok, conn: conn, user: new_user, token: token}
@@ -222,8 +228,8 @@ defmodule DevicesApiWeb.UserControllerTest do
     user
   end
 
-  defp user_sign_in(email, password) do
-    {:ok, token} = Signin.execute(%{email: email, password: password})
+  defp user_sign_in(input) do
+    {:ok, token} = Signin.execute(%SigninRequestInput{email: input.email, password: input.password})
     token
   end
 
