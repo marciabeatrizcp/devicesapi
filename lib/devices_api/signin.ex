@@ -14,7 +14,7 @@ defmodule DevicesApi.Signin do
 
     iex> {:error, :forbidden, message} = execute(%{email: valid_email, password: invalid_passord})
 
-    iex> {:error, :not_foforbiddenund, message} = execute(%{email: invalid_email, password: invalid_passord})
+    iex> {:error, :forbidden, message} = execute(%{email: invalid_email, password: invalid_passord})
 
 
   """
