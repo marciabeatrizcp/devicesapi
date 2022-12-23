@@ -4,8 +4,8 @@ defmodule DevicesApiWeb.UsersController do
   """
   alias DevicesApi.Changesets
   alias DevicesApi.Signin
+  alias DevicesApi.Signin.Inputs.SigninRequestInput
   alias DevicesApi.Users
-  alias DevicesApi.Users.Inputs.SigninRequestInput
   alias DevicesApi.Users.Inputs.SignupRequestInput
 
   use DevicesAPIWeb, :controller

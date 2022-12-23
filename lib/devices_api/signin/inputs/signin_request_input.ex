@@ -1,4 +1,4 @@
-defmodule DevicesApi.Users.Inputs.SigninRequestInput do
+defmodule DevicesApi.Signin.Inputs.SigninRequestInput do
   @moduledoc """
   Create sigin input type.
   """
