@@ -8,11 +8,11 @@ defmodule DevicesApi.Signin.Steps.IdentifyUser do
 
   @doc "Gets a User from database by email"
   @spec execute(email :: String.t()) ::
-          {:error, :not_found} | {:ok, User.t()}
+          {:error, String.t()} | {:ok, User.t()}
   def execute(email) do
     case Repo.get_by(User, email: email) do
       %User{} = user -> {:ok, user}
-      nil -> {:error, :not_found}
+      nil -> {:error, "User Not Found!"}
     end
   end
 end

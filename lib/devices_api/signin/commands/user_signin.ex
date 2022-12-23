@@ -17,8 +17,7 @@ defmodule DevicesApi.Signin.Commands.UserSignin do
          :ok <- CheckPassword.execute(input.password, user.password_hash) do
       TokenCreate.execute(user)
     else
-      {:error, :not_found} -> {:error, {:forbidden, "Invalid Credentials!"}}
-      :error -> {:error, {:forbidden, "Invalid Credentials!"}}
+      {:error, _} -> {:error, {:forbidden, "Invalid Credentials!"}}
       _ -> :error
     end
   end
