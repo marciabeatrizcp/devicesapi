@@ -15,7 +15,7 @@ defmodule DevicesApiWeb.UsersView do
     }
   end
 
-  @spec render(String.t(), map()) :: map()
+  @doc "Renders a user"
   def render("signin.json", %{token: token}) do
     %{
       token: token
