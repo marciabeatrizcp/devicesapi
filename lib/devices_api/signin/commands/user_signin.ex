@@ -10,7 +10,7 @@ defmodule DevicesApi.Signin.Commands.UserSignin do
   alias DevicesApi.Users.Schemas.User
 
   @spec execute(input :: SigninRequestInput.t()) ::
-          {:error, {:forbidden, String.t()}} | atom() | {:ok, struct()}
+          {:error, {:forbidden, String.t()}} | atom() | {:ok, String.t()}
   def execute(%SigninRequestInput{} = input) do
     with {:ok, %User{} = user} <- IdentifyUser.execute(input.email),
          :ok <- CheckPassword.execute(input.password, user.password_hash) do
