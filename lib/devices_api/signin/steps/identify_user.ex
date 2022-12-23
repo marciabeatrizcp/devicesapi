@@ -1,11 +1,12 @@
 defmodule DevicesApi.Signin.Steps.IdentifyUser do
   @moduledoc """
-  Gets a user by email
+  Retrieves a user by email
   """
+
   alias DevicesAPI.Repo
   alias DevicesApi.Users.Schemas.User
 
-  @doc "Checks email and password input."
+  @doc "Gets a User from database by email"
   @spec execute(email :: String.t()) ::
           {:error, :not_found} | {:ok, User.t()}
   def execute(email) do

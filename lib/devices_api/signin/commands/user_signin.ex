@@ -1,6 +1,6 @@
 defmodule DevicesApi.Signin.Commands.UserSignin do
   @moduledoc """
-  Executes `User` signin by email and password
+  Executes User signin by email and password
   """
 
   alias DevicesApi.Signin.Inputs.SigninRequestInput

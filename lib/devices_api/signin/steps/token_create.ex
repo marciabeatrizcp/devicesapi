@@ -1,6 +1,6 @@
 defmodule DevicesApi.Signin.Steps.TokenCreate do
   @moduledoc """
-  Gets a user by filter
+  Creates a token
   """
   alias DevicesApi.Users.Schemas.User
   alias DevicesApiWeb.Auth.JwtToken
