@@ -7,10 +7,14 @@ defmodule DevicesApiWeb.Auth.JwtAuthPlug do
 
   alias DevicesApiWeb.Auth.JwtToken
 
+  @doc "Initializes plug"
+  @spec init(opts :: Keyword.t()) :: list()
   def init(opts) do
     opts
   end
 
+  @doc "Verifies a token"
+  @spec call(conn :: Plug.Conn.t(), opts :: list()) :: {:unauthorized, String.t()} | Plug.Conn.t()
   def call(conn, _opts) do
     with {:ok, token} <- extract_token(conn),
          {:ok, claims} <- JwtToken.verify_signature(token),
