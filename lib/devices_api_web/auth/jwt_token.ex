@@ -62,13 +62,9 @@ defmodule DevicesApiWeb.Auth.JwtToken do
     |> :jose_base64url.encode()
   end
 
-  defp token_expiration(nil) do
-    :devices_api
-    |> Application.get_env(__MODULE__)
-    |> Keyword.get(:jwt_expiration_time_minutes)
-  end
-
-  defp token_expiration(value), do: value
+  defp token_expiration(value) do
+    value || Application.get_env(:devices_api, __MODULE__)[:jwt_expiration_time_minutes]
+    end    
 
   defp token_issuer do
     :devices_api
