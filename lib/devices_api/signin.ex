@@ -1,6 +1,12 @@
 defmodule DevicesApi.Signin do
   @moduledoc """
-  Delegate functions to handle Signin context
+  Sign in domain.
+  
+  Sign in is the process of exchanging credentials for a session. Current approach is to have JWT compact tokens in their JWS variant.
+  
+  A token contains information like subject, issuer, etc. See `xxxx` for more information.
+  
+  Sign ins generate audit records. Many consecutive failed attempts will lock the user.
   """
   alias DevicesApi.Signin.Commands.UserSignin
   alias DevicesApi.Signin.Inputs.SigninRequestInput
