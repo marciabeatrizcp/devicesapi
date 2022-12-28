@@ -3,10 +3,10 @@ defmodule DevicesApi.Signin.Commands.UserSignin do
   Executes User signin by email and password
   """
 
-  alias DevicesApi.Signin.Inputs.SigninRequestInput
   alias DevicesApi.Signin.Commands.CheckPassword
   alias DevicesApi.Signin.Commands.IdentifyUser
   alias DevicesApi.Signin.Commands.TokenCreate
+  alias DevicesApi.Signin.Inputs.SigninRequestInput
   alias DevicesApi.Users.Schemas.User
 
   @doc false

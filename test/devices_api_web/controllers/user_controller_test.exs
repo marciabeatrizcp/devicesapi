@@ -1,11 +1,11 @@
 defmodule DevicesApiWeb.UserControllerTest do
   use DevicesAPIWeb.ConnCase
 
+  alias DevicesApi.Auth.JwtToken
   alias DevicesApi.Signin
   alias DevicesApi.Signin.Inputs.SigninRequestInput
   alias DevicesApi.Users
   alias DevicesApi.Users.Inputs.SignupRequestInput
-  alias DevicesApi.Auth.JwtToken
 
   describe "POST /users/signup" do
     test "successfully create account when input is valid", %{conn: conn} do
