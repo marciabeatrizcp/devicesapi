@@ -18,7 +18,6 @@ defmodule DevicesApi.Signin.Commands.UserSignin do
       TokenCreate.execute(user)
     else
       {:error, _} -> {:error, {:forbidden, "Invalid Credentials!"}}
-      _ -> :error
     end
   end
 end
