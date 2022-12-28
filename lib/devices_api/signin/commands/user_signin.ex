@@ -4,9 +4,9 @@ defmodule DevicesApi.Signin.Commands.UserSignin do
   """
 
   alias DevicesApi.Signin.Inputs.SigninRequestInput
-  alias DevicesApi.Signin.Steps.CheckPassword
-  alias DevicesApi.Signin.Steps.IdentifyUser
-  alias DevicesApi.Signin.Steps.TokenCreate
+  alias DevicesApi.Signin.Commands.CheckPassword
+  alias DevicesApi.Signin.Commands.IdentifyUser
+  alias DevicesApi.Signin.Commands.TokenCreate
   alias DevicesApi.Users.Schemas.User
 
   @doc false
