@@ -7,7 +7,6 @@ defmodule DevicesApiWeb.FallbackControler do
 
   @urn_params "srn:error:invalid_params"
   @urn_not_found "srn:error:not_found"
-  @urn_unauthorized "srn:error:unauthorized"
   @urn_unauthenticated "srn:error:unauthenticated"
 
   @validation_errors [
@@ -35,20 +34,20 @@ defmodule DevicesApiWeb.FallbackControler do
 
   @spec call(conn :: Plug.Conn.t(), {:error, atom()}) :: Plug.Conn.t()
   def call(conn, {:error, error}) when error in @not_found_errors do
-    render_error(conn, 404, @urn_not_found)
+    render_error(conn, :not_found, @urn_not_found)
   end
 
   def call(conn, {:error, error}) when error in @unauthenticated_errors do
-    render_error(conn, 401, @urn_unauthenticated)
+    render_error(conn, :unauthorized, @urn_unauthenticated)
   end
 
   def call(conn, {:error, error}) when error in @validation_errors do
-    render_error(conn, 400, @urn_params)
+    render_error(conn, :bad_request, @urn_params)
   end
 
   @spec call(conn :: Plug.Conn.t(), {:error, String.t()}) :: Plug.Conn.t()
   def call(conn, {:error, message}) do
-    render_error(conn, 400, message)
+    render_error(conn, :bad_request, message)
   end
 
   defp render_error(conn, status, message, error \\ "default_error.json") do
