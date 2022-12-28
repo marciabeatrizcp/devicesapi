@@ -7,7 +7,7 @@ defmodule DevicesAPIWeb.Router do
 
   pipeline :api_auth do
     plug :accepts, ["json"]
-    plug DevicesApiWeb.Auth.JwtAuthPlug
+    plug DevicesApi.Auth.JwtAuthPlug
   end
 
   scope "/", DevicesApiWeb do

@@ -6,7 +6,7 @@ config :devices_api,
   generators: [binary_id: true]
 
 # Configures the token
-config :devices_api, DevicesApiWeb.Auth.JwtToken,
+config :devices_api, DevicesApi.Auth.JwtToken,
   jwt_issuer: "deviceapi.com.br",
   jwt_expiration_time_minutes: 30,
   jwt_secret_hs256_signature: "secret"
