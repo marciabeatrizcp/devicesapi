@@ -20,7 +20,7 @@ defmodule DevicesApi.Signin do
 
     iex> {:error, :unauthenticated} = execute(%SigninRequestInput{email: valid_email, password: invalid_passord})
 
-    iex> {:error, :not_found} = execute(%SigninRequestInput{email: invalid_email, password: invalid_passord})
+    iex> {:error, :unauthenticated} = execute(%SigninRequestInput{email: invalid_email, password: invalid_passord})
 
 
   """
