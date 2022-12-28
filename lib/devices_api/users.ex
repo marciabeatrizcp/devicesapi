@@ -30,12 +30,12 @@ defmodule DevicesApi.Users do
 
     iex> {:ok, %User{}} = execute(uuid)
 
-    iex> {:error, :not_found, "User not found!"} = get(not_found_user_id)
+    iex> {:error, :not_found} = get(not_found_user_id)
 
-    iex> {:error, "Invalid ID format!"} = execute(invalid_user_id)
+    iex> {:error, :invalid_id} = execute(invalid_user_id)
 
   """
   @spec get(binary) ::
-          {:ok, User.t()} | {:error, :not_found, String.t()} | {:error, String.t()}
+          {:ok, User.t()} | {:error, :not_found} | {:error, :invalid_id}
   defdelegate get(params), to: Get, as: :execute
 end

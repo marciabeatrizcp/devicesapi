@@ -26,7 +26,7 @@ defmodule DevicesApiWeb.UsersController do
 
   @doc "Gets a user by id"
   @spec show(conn :: Plug.Conn.t(), map) ::
-          {:error, :invalid_params | :not_found, String.t()} | Plug.Conn.t()
+          {:error, :invalid_id | :not_found} | Plug.Conn.t()
   def show(conn, %{"id" => id}) do
     with {:ok, uuid} <- Ecto.UUID.cast(id),
          {:ok, user} <- Users.get(uuid) do
@@ -34,8 +34,8 @@ defmodule DevicesApiWeb.UsersController do
       |> put_status(:ok)
       |> render("user.json", user: user)
     else
-      :error -> {:error, "Invalid ID format!"}
-      {:error, :not_found} -> {:error, {:not_found, "User not found!"}}
+      :error -> {:error, :invalid_id}
+      {:error, :not_found} -> {:error, :not_found}
     end
   end
 
@@ -52,7 +52,7 @@ defmodule DevicesApiWeb.UsersController do
       |> render("signin.json", token: token)
     else
       {:error, {:invalid_params, changeset}} -> {:error, {:invalid_params, changeset}}
-      {:error, {:forbidden, message}} -> {:error, {:forbidden, message}}
+      {:error, :unauthenticated} -> {:error, :unauthenticated}
     end
   end
 end

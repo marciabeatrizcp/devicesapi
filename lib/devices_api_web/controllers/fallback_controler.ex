@@ -5,6 +5,23 @@ defmodule DevicesApiWeb.FallbackControler do
 
   use DevicesAPIWeb, :controller
 
+  @urn_params "srn:error:invalid_params"
+  @urn_not_found "srn:error:not_found"
+  @urn_unauthorized "srn:error:unauthorized"
+  @urn_unauthenticated "srn:error:unauthenticated"
+
+  @validation_errors [
+    :invalid_id
+  ]
+
+  @unauthenticated_errors [
+    :unauthenticated
+  ]
+
+  @not_found_errors [
+    :not_found
+  ]
+
   @doc "Response the changeset error or bad request error"
   @spec call(conn :: Plug.Conn.t(), {:error, Ecto.Changeset.t()}) :: Plug.Conn.t()
   def call(conn, {:error, %Ecto.Changeset{errors: errors}}) do
@@ -16,19 +33,22 @@ defmodule DevicesApiWeb.FallbackControler do
     render_error(conn, :bad_request, errors, "field_errors.json")
   end
 
-  @spec call(conn :: Plug.Conn.t(), {:error, {atom(), String.t()}}) :: Plug.Conn.t()
-  def call(conn, {:error, {:not_found, message}}) do
-    render_error(conn, :not_found, message)
+  @spec call(conn :: Plug.Conn.t(), {:error, atom()}) :: Plug.Conn.t()
+  def call(conn, {:error, error}) when error in @not_found_errors do
+    render_error(conn, 404, @urn_not_found)
   end
 
-  @spec call(conn :: Plug.Conn.t(), {:error, {atom(), String.t()}}) :: Plug.Conn.t()
-  def call(conn, {:error, {:forbidden, message}}) do
-    render_error(conn, :forbidden, message)
+  def call(conn, {:error, error}) when error in @unauthenticated_errors do
+    render_error(conn, 401, @urn_unauthenticated)
+  end
+
+  def call(conn, {:error, error}) when error in @validation_errors do
+    render_error(conn, 400, @urn_params)
   end
 
   @spec call(conn :: Plug.Conn.t(), {:error, String.t()}) :: Plug.Conn.t()
   def call(conn, {:error, message}) do
-    render_error(conn, :bad_request, message)
+    render_error(conn, 400, message)
   end
 
   defp render_error(conn, status, message, error \\ "default_error.json") do

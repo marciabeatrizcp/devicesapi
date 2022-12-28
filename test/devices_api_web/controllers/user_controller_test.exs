@@ -128,7 +128,7 @@ defmodule DevicesApiWeb.UserControllerTest do
     test "fails when given an invalid UUID", %{conn: conn} do
       id = "1234"
 
-      assert %{"error" => "Invalid ID format!"} =
+      assert %{"error" => "srn:error:invalid_params"} =
                conn
                |> get("/users/#{id}")
                |> json_response(:bad_request)
@@ -137,7 +137,7 @@ defmodule DevicesApiWeb.UserControllerTest do
     test "returns not found when user doesn't exist ", %{conn: conn} do
       id = "45dc768d-9e35-4d06-a7c0-64377cf71906"
 
-      assert %{"error" => "User not found!"} =
+      assert %{"error" => "srn:error:not_found"} =
                conn
                |> get("/users/#{id}")
                |> json_response(:not_found)
@@ -146,7 +146,7 @@ defmodule DevicesApiWeb.UserControllerTest do
     test "fails when no authorization token found", %{conn: conn, user: user} do
       conn = delete_req_header(conn, "authorization")
 
-      assert %{"error" => "No authorization token found!"} =
+      assert %{"error" => "token_not_found"} =
                conn
                |> get("/users/#{user.id}")
                |> json_response(:unauthorized)
@@ -155,7 +155,7 @@ defmodule DevicesApiWeb.UserControllerTest do
     test "fails when token signed fails", %{conn: conn, user: user, token: token} do
       conn = put_req_header(conn, "authorization", "Bearer #{token <> "invalid"}")
 
-      assert %{"error" => "Token signature verification failed!"} =
+      assert %{"error" => "invalid_token"} =
                conn
                |> get("/users/#{user.id}")
                |> json_response(:unauthorized)
@@ -165,7 +165,7 @@ defmodule DevicesApiWeb.UserControllerTest do
       token = generate_token()
       conn = put_req_header(conn, "authorization", "Bearer #{token}")
 
-      assert %{"error" => "Token is expired!"} =
+      assert %{"error" => "expired_token"} =
                conn
                |> get("/users/#{user.id}")
                |> json_response(:unauthorized)
@@ -195,10 +195,10 @@ defmodule DevicesApiWeb.UserControllerTest do
         password: "123455"
       }
 
-      assert %{"error" => "Invalid Credentials!"} =
+      assert %{"error" => "srn:error:unauthenticated"} =
                conn
                |> post("/users/signin", request)
-               |> json_response(:forbidden)
+               |> json_response(:unauthorized)
     end
 
     test "fail user signin when email was not found", %{conn: conn} do
@@ -209,10 +209,10 @@ defmodule DevicesApiWeb.UserControllerTest do
         password: "123456"
       }
 
-      assert %{"error" => "Invalid Credentials!"} =
+      assert %{"error" => "srn:error:unauthenticated"} =
                conn
                |> post("/users/signin", request)
-               |> json_response(:forbidden)
+               |> json_response(:unauthorized)
     end
   end
 

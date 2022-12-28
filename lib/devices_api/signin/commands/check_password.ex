@@ -9,7 +9,7 @@ defmodule DevicesApi.Signin.Commands.CheckPassword do
   def execute(password, stored_hash) do
     case Argon2.verify_pass(password, stored_hash) do
       true -> :ok
-      false -> {:error, "Invalid Credentials!"}
+      false -> {:error, :unauthenticated}
     end
   end
 end

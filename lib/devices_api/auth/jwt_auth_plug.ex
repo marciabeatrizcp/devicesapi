@@ -29,7 +29,7 @@ defmodule DevicesApi.Auth.JwtAuthPlug do
   defp extract_token(conn) do
     case get_req_header(conn, "authorization") do
       ["Bearer " <> token | _] -> {:ok, token}
-      _ -> {:error, "No authorization token found!"}
+      _ -> {:error, :token_not_found}
     end
   end
 

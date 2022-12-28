@@ -18,12 +18,13 @@ defmodule DevicesApi.Signin do
 
     iex> {:ok, token} = execute(%SigninRequestInput{email: valid_email, password: valid_passord})
 
-    iex> {:error, :forbidden, message} = execute(%SigninRequestInput{email: valid_email, password: invalid_passord})
+    iex> {:error, :unauthenticated} = execute(%SigninRequestInput{email: valid_email, password: invalid_passord})
 
-    iex> {:error, :forbidden, message} = execute(%SigninRequestInput{email: invalid_email, password: invalid_passord})
+    iex> {:error, :not_found} = execute(%SigninRequestInput{email: invalid_email, password: invalid_passord})
 
 
   """
-  @spec execute(SigninRequestInput.t()) :: {:ok, String.t()} | {:error, {:forbidden, String.t()}}
+  @spec execute(SigninRequestInput.t()) ::
+          {:ok, String.t()} | {:error, :not_found | :unauthenticated}
   defdelegate execute(input), to: UserSignin, as: :execute
 end

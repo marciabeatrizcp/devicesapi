@@ -37,7 +37,7 @@ defmodule DevicesApi.Auth.JwtToken do
   def verify_signature(token) do
     case JOSE.JWT.verify(build_jwk(), token) do
       {true, claims, _} -> {:ok, claims}
-      _ -> {:error, "Token signature verification failed!"}
+      _ -> {:error, :invalid_token}
     end
   end
 
@@ -49,7 +49,7 @@ defmodule DevicesApi.Auth.JwtToken do
 
     case DateTime.compare(expiration_as_datetime, DateTime.utc_now()) do
       :gt -> {:ok, claims}
-      _ -> {:error, "Token is expired!"}
+      _ -> {:error, :expired_token}
     end
   end
 
