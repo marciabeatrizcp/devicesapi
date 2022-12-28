@@ -24,6 +24,6 @@ defmodule DevicesApi.Signin do
 
 
   """
-  @spec execute(SigninRequestInput.t()) :: {:error, {:forbidden, String.t()}}
+  @spec execute(SigninRequestInput.t()) :: {:ok, String.t()} | {:error, {:forbidden, String.t()}}
   defdelegate execute(input), to: UserSignin, as: :execute
 end

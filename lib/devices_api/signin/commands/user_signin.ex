@@ -11,7 +11,7 @@ defmodule DevicesApi.Signin.Commands.UserSignin do
 
   @doc false
   @spec execute(input :: SigninRequestInput.t()) ::
-          {:error, {:forbidden, String.t()}} | atom() | {:ok, String.t()}
+          {:error, {:forbidden, String.t()}} | {:ok, String.t()}
   def execute(%SigninRequestInput{} = input) do
     with {:ok, %User{} = user} <- IdentifyUser.execute(input.email),
          :ok <- CheckPassword.execute(input.password, user.password_hash) do
