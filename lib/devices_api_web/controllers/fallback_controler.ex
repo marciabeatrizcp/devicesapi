@@ -5,10 +5,6 @@ defmodule DevicesApiWeb.FallbackControler do
 
   use DevicesAPIWeb, :controller
 
-  @urn_params "srn:error:invalid_params"
-  @urn_not_found "srn:error:not_found"
-  @urn_unauthenticated "srn:error:unauthenticated"
-
   @validation_errors [
     :invalid_id
   ]
@@ -18,7 +14,8 @@ defmodule DevicesApiWeb.FallbackControler do
   ]
 
   @not_found_errors [
-    :not_found
+    :not_found,
+    :user_not_found
   ]
 
   @doc "Response the changeset error or bad request error"
@@ -33,16 +30,21 @@ defmodule DevicesApiWeb.FallbackControler do
   end
 
   @spec call(conn :: Plug.Conn.t(), {:error, atom()}) :: Plug.Conn.t()
-  def call(conn, {:error, error}) when error in @not_found_errors do
-    render_error(conn, :not_found, @urn_not_found)
+  def call(conn, {:error, :user_not_found}) do
+    render_error(conn, :not_found, "User not found")
+  end
+
+  @spec call(conn :: Plug.Conn.t(), {:error, atom()}) :: Plug.Conn.t()
+  def call(conn, {:error, :not_found}) do
+    render_error(conn, :not_found, "Not found")
   end
 
   def call(conn, {:error, error}) when error in @unauthenticated_errors do
-    render_error(conn, :unauthorized, @urn_unauthenticated)
+    render_error(conn, :unauthorized, "Unauthorized")
   end
 
   def call(conn, {:error, error}) when error in @validation_errors do
-    render_error(conn, :bad_request, @urn_params)
+    render_error(conn, :bad_request, "Invalid_params")
   end
 
   @spec call(conn :: Plug.Conn.t(), {:error, String.t()}) :: Plug.Conn.t()

@@ -128,7 +128,7 @@ defmodule DevicesApiWeb.UserControllerTest do
     test "fails when given an invalid UUID", %{conn: conn} do
       id = "1234"
 
-      assert %{"error" => "srn:error:invalid_params"} =
+      assert %{"error" => "Invalid_params"} =
                conn
                |> get("/users/#{id}")
                |> json_response(:bad_request)
@@ -137,7 +137,7 @@ defmodule DevicesApiWeb.UserControllerTest do
     test "returns not found when user doesn't exist ", %{conn: conn} do
       id = "45dc768d-9e35-4d06-a7c0-64377cf71906"
 
-      assert %{"error" => "srn:error:not_found"} =
+      assert %{"error" => "User not found"} =
                conn
                |> get("/users/#{id}")
                |> json_response(:not_found)
@@ -195,7 +195,7 @@ defmodule DevicesApiWeb.UserControllerTest do
         password: "123455"
       }
 
-      assert %{"error" => "srn:error:unauthenticated"} =
+      assert %{"error" => "Unauthorized"} =
                conn
                |> post("/users/signin", request)
                |> json_response(:unauthorized)
@@ -209,7 +209,7 @@ defmodule DevicesApiWeb.UserControllerTest do
         password: "123456"
       }
 
-      assert %{"error" => "srn:error:unauthenticated"} =
+      assert %{"error" => "Unauthorized"} =
                conn
                |> post("/users/signin", request)
                |> json_response(:unauthorized)

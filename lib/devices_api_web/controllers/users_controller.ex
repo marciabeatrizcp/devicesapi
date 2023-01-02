@@ -26,7 +26,7 @@ defmodule DevicesApiWeb.UsersController do
 
   @doc "Gets a user by id"
   @spec show(conn :: Plug.Conn.t(), map) ::
-          {:error, :invalid_id | :not_found} | Plug.Conn.t()
+          {:error, :invalid_id | :user_not_found} | Plug.Conn.t()
   def show(conn, %{"id" => id}) do
     with {:ok, uuid} <- Ecto.UUID.cast(id),
          {:ok, user} <- Users.get(uuid) do
@@ -35,14 +35,14 @@ defmodule DevicesApiWeb.UsersController do
       |> render("user.json", user: user)
     else
       :error -> {:error, :invalid_id}
-      {:error, :not_found} -> {:error, :not_found}
+      {:error, :user_not_found} -> {:error, :user_not_found}
     end
   end
 
   @doc "Executes a user sign in"
   @spec sign_in(conn :: Plug.Conn.t(), map) ::
           {:error, {:invalid_params, Ecto.Changeset.t()}}
-          | {:error, {:forbidden, String.t()}}
+          | {:error, :unauthenticated}
           | Plug.Conn.t()
   def sign_in(conn, params) do
     with {:ok, input} <- Changesets.cast_and_apply(SigninRequestInput, params),

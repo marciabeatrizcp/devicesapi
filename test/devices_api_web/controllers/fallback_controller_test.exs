@@ -69,7 +69,7 @@ defmodule DevicesApiWeb.FallbackControllerTest do
     conn = Map.put(conn, :params, %{"_format" => "json"})
     conn = FallbackControler.call(conn, assigns)
 
-    assert json_response(conn, :not_found) == %{"error" => "srn:error:not_found"}
+    assert json_response(conn, :not_found) == %{"error" => "Not found"}
   end
 
   test "renders a not authorized error", %{conn: conn} do
@@ -78,6 +78,6 @@ defmodule DevicesApiWeb.FallbackControllerTest do
     conn = Map.put(conn, :params, %{"_format" => "json"})
     conn = FallbackControler.call(conn, assigns)
 
-    assert json_response(conn, :unauthorized) == %{"error" => "srn:error:unauthenticated"}
+    assert json_response(conn, :unauthorized) == %{"error" => "Unauthorized"}
   end
 end

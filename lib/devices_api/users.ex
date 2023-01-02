@@ -36,6 +36,6 @@ defmodule DevicesApi.Users do
 
   """
   @spec get(binary) ::
-          {:ok, User.t()} | {:error, :not_found} | {:error, :invalid_id}
+          {:ok, User.t()} | {:error, :user_not_found} | {:error, :invalid_id}
   defdelegate get(params), to: Get, as: :execute
 end
