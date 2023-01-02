@@ -8,7 +8,7 @@ defmodule DevicesApi.Signin.Commands.IdentifyUser do
 
   @doc "Gets a User from database by email"
   @spec execute(email :: String.t()) ::
-          {:error, String.t()} | {:ok, User.t()}
+          {:error, :user_not_found} | {:ok, User.t()}
   def execute(email) do
     case Repo.get_by(User, email: email) do
       %User{} = user -> {:ok, user}

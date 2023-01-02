@@ -30,7 +30,7 @@ defmodule DevicesApi.Users do
 
     iex> {:ok, %User{}} = execute(uuid)
 
-    iex> {:error, :not_found} = get(not_found_user_id)
+    iex> {:error, :user_not_found} = get(not_found_user_id)
 
     iex> {:error, :invalid_id} = execute(invalid_user_id)
 
