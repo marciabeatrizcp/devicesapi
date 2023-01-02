@@ -44,7 +44,7 @@ defmodule DevicesApiWeb.FallbackControler do
   end
 
   def call(conn, {:error, error}) when error in @validation_errors do
-    render_error(conn, :bad_request, "Invalid_params")
+    render_error(conn, :bad_request, "Invalid params")
   end
 
   @spec call(conn :: Plug.Conn.t(), {:error, String.t()}) :: Plug.Conn.t()

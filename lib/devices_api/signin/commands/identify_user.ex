@@ -12,7 +12,7 @@ defmodule DevicesApi.Signin.Commands.IdentifyUser do
   def execute(email) do
     case Repo.get_by(User, email: email) do
       %User{} = user -> {:ok, user}
-      nil -> {:error, :not_found}
+      nil -> {:error, :user_not_found}
     end
   end
 end

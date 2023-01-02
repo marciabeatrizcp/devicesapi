@@ -128,7 +128,7 @@ defmodule DevicesApiWeb.UserControllerTest do
     test "fails when given an invalid UUID", %{conn: conn} do
       id = "1234"
 
-      assert %{"error" => "Invalid_params"} =
+      assert %{"error" => "Invalid params"} =
                conn
                |> get("/users/#{id}")
                |> json_response(:bad_request)
