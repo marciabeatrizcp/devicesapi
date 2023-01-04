@@ -1,4 +1,4 @@
-defmodule DevicesApi.Auth.JwtAuthPlug do
+defmodule DevicesApiWeb.JwtAuthPlug do
   @moduledoc """
   Enables token verification
   """
