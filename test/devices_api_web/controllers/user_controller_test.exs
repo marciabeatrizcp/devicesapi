@@ -1,6 +1,9 @@
 defmodule DevicesApiWeb.UserControllerTest do
   use DevicesAPIWeb.ConnCase
 
+  alias DevicesApi.Auth.JwtToken
+  alias DevicesApi.Signin
+  alias DevicesApi.Signin.Inputs.SigninRequestInput
   alias DevicesApi.Users
   alias DevicesApi.Users.Inputs.SignupRequestInput
 
@@ -97,23 +100,35 @@ defmodule DevicesApiWeb.UserControllerTest do
     end
   end
 
-  describe "GET /users/signup:id" do
-    test "successfully gets a user given a valid UUID", %{conn: conn} do
+  describe "GET /users/:id" do
+    setup %{conn: conn} do
       new_user = user_insert()
 
+      input = %{
+        email: "beatriz@gmail.com",
+        password: "123456"
+      }
+
+      token = user_sign_in(input)
+
+      conn = put_req_header(conn, "authorization", "Bearer #{token}")
+      {:ok, conn: conn, user: new_user, token: token}
+    end
+
+    test "successfully gets a user given a valid UUID", %{conn: conn, user: user} do
       assert %{
                "email" => "beatriz@gmail.com",
                "name" => "Beatriz Domingues"
              } =
                conn
-               |> get("/users/#{new_user.id}")
+               |> get("/users/#{user.id}")
                |> json_response(:ok)
     end
 
     test "fails when given an invalid UUID", %{conn: conn} do
       id = "1234"
 
-      assert %{"error" => "Invalid ID format!"} =
+      assert %{"error" => "Invalid params"} =
                conn
                |> get("/users/#{id}")
                |> json_response(:bad_request)
@@ -122,10 +137,82 @@ defmodule DevicesApiWeb.UserControllerTest do
     test "returns not found when user doesn't exist ", %{conn: conn} do
       id = "45dc768d-9e35-4d06-a7c0-64377cf71906"
 
-      assert %{"error" => "User not found!"} =
+      assert %{"error" => "User not found"} =
                conn
                |> get("/users/#{id}")
                |> json_response(:not_found)
+    end
+
+    test "fails when no authorization token found", %{conn: conn, user: user} do
+      conn = delete_req_header(conn, "authorization")
+
+      assert %{"error" => "token_not_found"} =
+               conn
+               |> get("/users/#{user.id}")
+               |> json_response(:unauthorized)
+    end
+
+    test "fails when token signed fails", %{conn: conn, user: user, token: token} do
+      conn = put_req_header(conn, "authorization", "Bearer #{token <> "invalid"}")
+
+      assert %{"error" => "invalid_token"} =
+               conn
+               |> get("/users/#{user.id}")
+               |> json_response(:unauthorized)
+    end
+
+    test "fails when token is expired", %{conn: conn, user: user} do
+      token = generate_token()
+      conn = put_req_header(conn, "authorization", "Bearer #{token}")
+
+      assert %{"error" => "expired_token"} =
+               conn
+               |> get("/users/#{user.id}")
+               |> json_response(:unauthorized)
+    end
+  end
+
+  describe "POST /users/signin" do
+    test "successfully user signin when input is valid", %{conn: conn} do
+      user_insert()
+
+      request = %{
+        email: "beatriz@gmail.com",
+        password: "123456"
+      }
+
+      assert %{"token" => _} =
+               conn
+               |> post("/users/signin", request)
+               |> json_response(:ok)
+    end
+
+    test "fail user signin when password is wrong", %{conn: conn} do
+      user_insert()
+
+      request = %{
+        email: "beatriz@gmail.com",
+        password: "123455"
+      }
+
+      assert %{"error" => "Unauthorized"} =
+               conn
+               |> post("/users/signin", request)
+               |> json_response(:unauthorized)
+    end
+
+    test "fail user signin when email was not found", %{conn: conn} do
+      user_insert()
+
+      request = %{
+        email: "beatriz1@gmail.com",
+        password: "123456"
+      }
+
+      assert %{"error" => "Unauthorized"} =
+               conn
+               |> post("/users/signin", request)
+               |> json_response(:unauthorized)
     end
   end
 
@@ -139,5 +226,15 @@ defmodule DevicesApiWeb.UserControllerTest do
     {:ok, user} = Users.create(user_params)
 
     user
+  end
+
+  defp user_sign_in(input) do
+    {:ok, token} = Signin.execute(%SigninRequestInput{email: input.email, password: input.password})
+    token
+  end
+
+  defp generate_token do
+    {:ok, token} = JwtToken.create("aaaf1f3f-4576-42f2-b3f1-55ca8241e0aa", "beatriz@gmail.com", -10)
+    token
   end
 end

@@ -64,11 +64,20 @@ defmodule DevicesApiWeb.FallbackControllerTest do
   end
 
   test "renders a not found error", %{conn: conn} do
-    assigns = {:error, {:not_found, "not_found"}}
+    assigns = {:error, :not_found}
 
     conn = Map.put(conn, :params, %{"_format" => "json"})
     conn = FallbackControler.call(conn, assigns)
 
-    assert json_response(conn, :not_found) == %{"error" => "not_found"}
+    assert json_response(conn, :not_found) == %{"error" => "Not found"}
+  end
+
+  test "renders a not authorized error", %{conn: conn} do
+    assigns = {:error, :unauthenticated}
+
+    conn = Map.put(conn, :params, %{"_format" => "json"})
+    conn = FallbackControler.call(conn, assigns)
+
+    assert json_response(conn, :unauthorized) == %{"error" => "Unauthorized"}
   end
 end
